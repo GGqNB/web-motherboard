@@ -1,6 +1,6 @@
 import { createPinia } from 'pinia';
 import { computed } from 'vue';
-import { useLoadingStore } from 'AdminDir/stores/loading.store';
+import { useLoadingStore } from 'src/stores/loading.store';
 
 export function useLoading() {
   const loadingStore = useLoadingStore(createPinia());

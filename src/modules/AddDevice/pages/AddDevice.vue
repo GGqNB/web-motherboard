@@ -46,7 +46,7 @@
         ><q-tooltip
           
           anchor="bottom middle" self="center middle"
-          :offset="[20, 0]"
+          :offset="[20, 80]"
           :delay="400"
         >
         <div class="mt-base-15"> Шаг 1: Подготовка</div>

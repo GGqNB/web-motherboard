@@ -40,7 +40,7 @@
       <div class="home_wrapper">
        
         <div class="mt-base-15">Подключение wi-fi сети</div>
-        <SSelect label="Выберите wi-fi сеть" class="mt-base-5" v-model="selectedWifi" :options="wifi_data">
+        <SSelect label="Выберите wi-fi сеть" class="mt-base-5" v-model="selectedWifi" :options="listWifi">
         <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
             <q-item-section>
@@ -59,9 +59,10 @@
     </s-page>
   </template>
   <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, onMounted, ref } from 'vue';
   // import SInput from 'src/components/ui/Input.vue';
-  import { useNotifications } from 'src/composables/useNotifications';
+  import { useList } from './useAddPhone';
+  
   
   
   export default defineComponent({
@@ -70,45 +71,28 @@
       // SInput
     },
     setup() {
-      const wifi_flag = ref(false);
-      let phone_flag = ref(false);
-      const notification = useNotifications();
-      const addPhone = () => {
-        phone_flag.value = !phone_flag.value
-        
-        notification.successNotification('Телефон успешно добавлен');
-      };
-      const wifiConnect = () => {
-        wifi_flag.value = !wifi_flag.value
-        notification.successNotification('Успешное подключение');
-      }
-      const selectedWifi = ref(null);
-      const wifi_data = [
-        {
-          id:3,
-          name: 'Сеть 1',
-        },
-        {
-          id:4,
-          name: 'Сеть 2',
-        },
-        {
-          id:5,
-          name: 'Сеть 3',
-        },
-      ]
-  
+      const {
+        listWifi,
+      init,
+      selectedWifi,
+      wifiConnect,
+      addPhone,
+      wifi_flag,
+      phone_flag,
+    } = useList();
+
+    onMounted(() => init());
       // eslint-disable-next-line no-return-assign
 
   
       return {
-        wifi_data,
-        selectedWifi,
-        model: ref([]),
-        addPhone,
-        wifi_flag,
-        phone_flag,
-        wifiConnect,
+      listWifi,
+      init,
+      selectedWifi,
+      wifiConnect,
+      wifi_flag,
+      phone_flag,
+      addPhone,
       };
     },
   });
