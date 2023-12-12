@@ -14,34 +14,29 @@
         <div class="fs-8 mt-base-40">
             Ваши уже добавленные устройства :
         </div>
-        <div class="flex justify-between mt-base-20">
+        <div v-for="i in listLocks" :key="i.id" class="flex justify-between mt-base-20">
         <div>
-          1. №3221 Дом на Георгия-Величко 9
+          {{ i.id }}.
+          {{ i.name }}
+          Адрес : 
+          {{ i.address }}
         </div>
         <div>
-        <q-btn dense flat round icon="lens" size="12.5px" color="red" />
+        <q-btn dense flat round icon="lens" size="12.5px" color="green" />
         </div>
-        <!-- :color="(wifi_flag ? 'green' : 'red')" -->
+
       </div>
-      <div class="flex justify-between">
-        <div>
-          2. №3222 Дом на Гагарина 121
-        </div>
-        <div>
-        <q-btn dense flat round icon="lens" size="12.5px" color="red" />
-        </div>
-        <!-- :color="(wifi_flag ? 'green' : 'red')" -->
-      </div>
+  
         
       </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SBtn label="Проверка нового устройства" width="base-xxxl" class="mt-base-15" @click =onSubmit() />
+        <SBtn label="Проверка нового устройства" width="base-xxxl" class="mt-base-15" />
         <SBtn 
         label="Развернуть инструкцию по проверке" 
         width="base-xxxl" 
         class="mt-base-15" 
-        @click =onSubmit()
+
         disable
         ><q-tooltip
           
@@ -61,16 +56,27 @@
       </div>
       </div>
       <div class="home_wrapper ">
-        <SInput label="Введите название" class="mt-base-15"/>
-        <SInput label="Введите номер телефона" class="mt-base-15"/>
-        <SBtn label="Добавить" width="base-xxxl" class="mt-base-15"/>
+        <SInput label="Введите название" class="mt-base-15" v-model="lockData.name"/>
+        <SInput label="Введите сетевой адрес" class="mt-base-15"  v-model="lockData.address">
+          <q-tooltip
+          
+          anchor="bottom middle" self="center middle"
+          :offset="[20, 80]"
+          :delay="400"
+        >
+        <div class="mt-base-15"> Сетевой адресс имеет формат 0xYYYY</div>
+        <div>Например: 0x0001,0x0002,0x0003,0x0004</div>
+        </q-tooltip>
+        </SInput>
+        <SBtn label="Добавить" width="base-xxxl" @click=createLock() class="mt-base-15"/>
       </div>
-
+      <div class="main_footer">
+      </div>
     </s-page>
   </template>
   <script lang="ts">
-  import { defineComponent, ref } from 'vue';
-  import { useNotifications } from 'src/composables/useNotifications';
+  import { defineComponent, ref, onMounted } from 'vue';
+  import { useList } from '../composables/useAddDevice';
   
   
   export default defineComponent({
@@ -79,35 +85,22 @@
       // SInput
     },
     setup() {
-      const notification = useNotifications();
-
-      const onSubmit = () => {
-        notification.successNotification('Успешно сохранено');
-      }
-      const selectedWifi = ref(null);
-      const wifi_data = [
-        {
-          id:3,
-          name: 'Сеть 1',
-        },
-        {
-          id:4,
-          name: 'Сеть 2',
-        },
-        {
-          id:5,
-          name: 'Сеть 3',
-        },
-      ]
+      const {
+      listLocks,
+      createLock,
+      init,
+      lockData,
+      } = useList();
   
+      onMounted(() => init());
       // eslint-disable-next-line no-return-assign
 
   
       return {
-        wifi_data,
-        selectedWifi,
-        model: ref([]),
-        onSubmit,
+      listLocks,
+      init,
+      createLock,
+      lockData,
       };
     },
   });

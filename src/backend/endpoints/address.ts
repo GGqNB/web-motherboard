@@ -63,6 +63,7 @@ export const CITY = {
       url: `${cityUrl}/delete/${id}`,
     };
   },
+  
 };
 
 const locationUrl = `${addressesUrl}/locations`;

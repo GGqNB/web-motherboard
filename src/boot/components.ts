@@ -12,6 +12,7 @@ import SSelect from 'src/components/ui/SSelect.vue';
 import SSelectBackend from 'src/components/backend/SSelectBackend.vue';
 import SBaseFilter from 'src/components/Filters/SBaseFilter.vue';
 // import SStepper from 'src/components/ui/SStepper.vue';
+import SSpinner from 'src/components/Loadings/SSpinner.vue'
 import SDialog from 'src/components/Dialog/SDialog.vue';
 import SBanner from 'src/components/base/Banner/SBanner.vue';
 
@@ -19,6 +20,7 @@ export default boot(async ({ app }) => {
   app.component('SPage', SPage);
   app.component('SPageContent', SPageContent);
   app.component('SHeader', SHeader);
+  app.component('SSpinner', SSpinner);
   app.component('SBtn', SBtn);
   // app.component('SBtnIcon', SBtnIcon);
   app.component('SInput', SInput);

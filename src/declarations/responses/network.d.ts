@@ -1,6 +1,5 @@
 export namespace Network {
   export interface NetworkBrief {
-
         connected: boolean,
         ssid: string,
         signal: number,

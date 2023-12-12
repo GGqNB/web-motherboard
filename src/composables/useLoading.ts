@@ -1,43 +1,22 @@
-import { createPinia } from 'pinia';
-import { computed } from 'vue';
-import { useLoadingStore } from 'src/stores/loading.store';
 
+import { useQuasar } from 'quasar'
+import { Ref } from 'vue';
 export function useLoading() {
-  const loadingStore = useLoadingStore(createPinia());
+  const $q = useQuasar()
 
-  const action = {
-    show() {
-      loadingStore.setActionLoading(true);
-    },
-    hide() {
-      loadingStore.setActionLoading(false);
-    },
-    state: computed(() => loadingStore.getActionLoading),
-  };
+   function showLoading() {
+    $q.loading.show({
+      message: 'Загрузка...',
+      spinnerSize: 100,
+      spinnerColor: 'blue',
+    });
+  }
 
-  const route = {
-    show() {
-      loadingStore.setRouteLoading(true);
-    },
-    hide() {
-      loadingStore.setRouteLoading(false);
-    },
-    state: computed(() => loadingStore.getRouteLoading),
-  };
-
-  const general = {
-    show() {
-      loadingStore.setLoading(true);
-    },
-    hide() {
-      loadingStore.setLoading(false);
-    },
-    state: computed(() => loadingStore.getLoading),
-  };
-
+  function hideLoading() {
+    $q.loading.hide();
+  }
   return {
-    action,
-    route,
-    general,
-  };
+    showLoading,
+    hideLoading,
+  }
 }

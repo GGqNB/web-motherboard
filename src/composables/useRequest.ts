@@ -1,10 +1,8 @@
-import { useLoading } from './useLoading';
 import { AxiosError, AxiosResponse } from 'axios';
 import isObject from 'lodash/isObject';
 import { useNotifications } from './useNotifications';
 import { MakeRequestOptions } from 'RootDir/declarations/composables/request';
 
-const { general } = useLoading();
 
 const defaultMakeRequestOptions: MakeRequestOptions = {
   useLoader: true,
@@ -15,11 +13,9 @@ const defaultMakeRequestOptions: MakeRequestOptions = {
   defaultMessage: 'При выполнении запроса произошла ошибка',
   startLoading: () => {
     console.debug('Standard "startLoading" was used!');
-    general.show();
   },
   finishLoading: () => {
     console.debug('Standard "finishLoading" was used!');
-    general.hide();
   },
 };
 

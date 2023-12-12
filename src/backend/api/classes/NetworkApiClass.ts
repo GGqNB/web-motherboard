@@ -9,20 +9,23 @@ export type NetworkData =  { data: Network.NetworkBare[] };
 // }
 
 export default class NetworkApi {
+
   public static async list(): Promise<NetworkData> {
     const responseData: NetworkData = await axios({
       ...NETWORK.LIST
     })
-      .then((r): NetworkData => r.data);
+      .then((r): NetworkData => r);
 
     return responseData;
   }
-  // public static async show(id: number): Promise<Users.UserDefault> {
-  //   const responseData: Users.UserDefault = await axios({
-  //     ...USER.SHOW(id),
-  //   })
-  //     .then((r): Users.UserDefault => r.data.data);
 
-  //   return responseData;
-  // }
+  public static async connect(data: Network.NetworkBare): Promise<{ message: string }> {
+    const responseData: { message: string } = await axios({
+      ...NETWORK.CONNECT,
+      data,
+    })
+      .then((r): { message: string } => r.data);
+
+    return responseData;
+  }
 }

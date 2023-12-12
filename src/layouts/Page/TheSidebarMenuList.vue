@@ -57,9 +57,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
-import { RouteRecordName, useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
+import { computed, defineComponent } from 'vue';
+
 
 
 import { MenuItem } from './sidebar-menu-list';
@@ -81,7 +80,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const route = useRoute();
+
     // const appStore = useAppStore();
     // const userStore = useUserStore();
 

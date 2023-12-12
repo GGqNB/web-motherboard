@@ -1,19 +1,20 @@
 <template>
   <q-select
-  v-model="selectedValue"
-  @update:model-value="emit('update:modelValue', selectedValue)"
-  :class="classes"
-  outlined
-  dense
-  clear-icon="app:delete"
-  :disable="disable"
-  :hide-bottom-space="hideBottomSpace"
-  :options-dense="optionsDense"
-  popup-content-class="s-select--item"
-  
+    :class="classes"
+    outlined
+    dense
+    :disable="disable"
+    :hide-bottom-space="hideBottomSpace"
+    :options-dense="optionsDense"
+    popup-content-class="s-select--item"
+    v-model="selectedValue" 
+    :options="options"  
   >
     <template #default>
       <slot></slot>
+    </template>
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
     </template>
   </q-select>
 </template>
@@ -42,10 +43,14 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    options: {
+      type: Array,   // Передаем массив опций
+      default: () => [],
+      required: false,
+    },
+    value: [String, Number]  // Добавляем привязку значения через v-model
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { slots,emit }) {
-    const selectedValue = ref(null);
+  setup(props, { slots, emit }) {
     const classesArray = ref([
       's-select',
       props.disable ? 's-select--disable' : '',
@@ -53,12 +58,13 @@ export default defineComponent({
     ] as Array<string>);
 
     const classes = ref(classesArray.value.join(' ') as string);
+
     return {
       classes,
       slots,
-
-    selectedValue,
-    };
+      selectedValue: props.value,
+      emit,
+    }
   },
-});
+})
 </script>

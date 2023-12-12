@@ -1,15 +1,15 @@
 import { IEndpointData } from 'src/backend/endpoint';
 import { API_SERVER } from 'src/constants/common';
 
-const networkUrl = `${API_SERVER}/networks/`;
+const networkUrl = `${API_SERVER}/networks`;
 
 export const NETWORK = {
   LIST: {
     method: 'GET',
-    url: `${networkUrl}`,
+    url: `${networkUrl}/`,
   } as IEndpointData,
-  CONNECT: {
+  CONNECT : {
     method: 'POST',
-    url: `${API_SERVER}/connect/`,
+    url: `${networkUrl}/connect/`,
   } as IEndpointData,
 };

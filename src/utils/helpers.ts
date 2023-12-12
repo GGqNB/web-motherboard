@@ -2,7 +2,7 @@ import mapValues from 'lodash/mapValues';
 import keyBy from 'lodash/keyBy';
 
 // простой фильтр-словарь
-export const lookInDictionary = (key: string | number, dictionary: any, options: any) => {
+export const lookInDictionary = (key: string | number, dictionary: unknown, options: any) => {
   const o = {
     key: 'id',
     value: 'name',
@@ -27,10 +27,10 @@ export const lookInDictionary = (key: string | number, dictionary: any, options:
 export const getFieldValueByFieldIdentifier = (
   keySearch = 'id',
   fieldValue = 'name',
-  valueSearch: any,
-  catalog: Array<any>,
+  valueSearch: unknown,
+  catalog: Array<unknown>,
   emptyDefault = ''
-): any => {
+): unknown => {
   const item = catalog.find((item) => item[keySearch] === valueSearch);
   if (item) {
     return item[fieldValue] ?? emptyDefault;
@@ -100,4 +100,9 @@ export const copyTextToClipboard = async (text: string) => {
     .writeText(text)
     .then(() => true)
     .catch(() => false);
+};
+
+
+export const stringNumberWithoutSymbols = (number) => {
+  return number.replace(/\D/g, '');
 };

@@ -138,3 +138,16 @@ export const getFirstLettersFromText = (text = '') => {
   }
   return text.split(' ').reduce((prevStr, str) => prevStr + str.charAt(0).toUpperCase(), '');
 };
+
+export const extractPhoneNumber = (phoneNumber: string): string => {
+  
+  let phoneUpdateNumber = phoneNumber.slice(3)
+  phoneUpdateNumber = phoneUpdateNumber.replace('-', '')
+  phoneUpdateNumber = phoneUpdateNumber.replace('-', '')
+  phoneUpdateNumber = phoneUpdateNumber.replace(' ', '')
+  phoneUpdateNumber = phoneUpdateNumber.replace(' ', '')
+  phoneUpdateNumber = phoneUpdateNumber.replace('(', '')
+  phoneUpdateNumber = phoneUpdateNumber.replace(')', '')
+  console.log(phoneUpdateNumber)
+  return phoneUpdateNumber;
+} 

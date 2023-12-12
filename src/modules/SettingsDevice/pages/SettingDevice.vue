@@ -5,25 +5,32 @@
         title="Настройки устройства"
       />
       <div class="home_wrapper">
-        <SSelect label="Выберите устройство" class="mt-base-40 " v-model="selectedWifi" :options="wifi_data">
-        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-          <q-item v-bind="itemProps">
-            <q-item-section>
-              <q-item-label>{{ opt => Object(opt) === opt && 'name' in opt ? opt.name : 'Выберете город' }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-            </q-item-section>
-          </q-item>
-        </template>
+        <SSelect label="Выберите устройство" v-model="lockData"  class="mt-base-40 " :options="listLocks" option-label="name">
       </SSelect>
         
       </div>
+      <div class="home_wrapper mt-base-15">
+        <div class=" mt-base-15">Привязка устройства {{ lockData.name }} по номеру</div>
+        <SInput 
+        v-model="phoneData.phone" 
+        class=" mt-base-15" 
+        label="Введите номер телефона" 
+        :disable="lockData.id == 0 ?? true"
+        mask="+7 (###) ###-##-##"
+        unmasked-value
+        />
+        <SBtn 
+        label="Привязать" 
+        width="base-xxxl" 
+        :disable="lockData.id == 0 ?? true" 
+        class="mt-base-15" 
+        @click="bindLock()"/>
+      </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SInput label="Время 1" icon="home" :readonly="true">
+        <SInput label="Время 1" icon="home" :readonly="timeFlagUp">
           <template v-slot:append>
-          <q-btn round dense flat icon="tune" />
+          <q-btn round dense flat icon="tune" @click="timeFlagUp = !timeFlagUp"/>
         </template>
           </SInput>
         <div class="s-input-settings ml-base-2">
@@ -33,23 +40,23 @@
       </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SInput label="Время 2" icon="home" :readonly="true">
+        <SInput label="Время 2" icon="home" :readonly="timeFlagDown">
           <template v-slot:append>
-          <q-btn round dense flat icon="tune" />
+          <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown"/>
         </template>
           </SInput>
         <div class="s-input-settings ml-base-2">
         <SInput label="5сек"/>
       </div>
       </div>
-      <SBtn label="Сохранить" width="base-xxxl" class="mt-base-15" @click =onSubmit() />
+      <SBtn label="Сохранить" width="base-xxxl" class="mt-base-15"  />
       </div>
     </s-page>
   </template>
   <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, onMounted } from 'vue';
   // import SInput from 'src/components/ui/Input.vue';
-  import { useNotifications } from 'src/composables/useNotifications';
+  import { useList } from '../composables/useSettingDevice';
   
   
   export default defineComponent({
@@ -58,35 +65,31 @@
       // SInput
     },
     setup() {
-      const notification = useNotifications();
+      const {
+      listLocks,
+      bindLock,
+      phoneData,
+      init,
+      lockData,
+      } = useList();
+      
+      onMounted(() => init());
 
-      const onSubmit = () => {
-        notification.successNotification('Успешно сохранено');
-      }
-      const selectedWifi = ref(null);
-      const wifi_data = [
-        {
-          id:3,
-          name: 'Сеть 1',
-        },
-        {
-          id:4,
-          name: 'Сеть 2',
-        },
-        {
-          id:5,
-          name: 'Сеть 3',
-        },
-      ]
+      const timeFlagUp = ref(true);
+      const timeFlagDown = ref(true);
+     
   
       // eslint-disable-next-line no-return-assign
 
   
       return {
-        wifi_data,
-        selectedWifi,
-        model: ref([]),
-        onSubmit,
+        listLocks,
+        phoneData,
+        init,
+        bindLock,
+        timeFlagUp,
+        timeFlagDown,
+        lockData,
       };
     },
   });

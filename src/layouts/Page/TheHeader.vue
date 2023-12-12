@@ -10,17 +10,48 @@
           <img class="s-header-logo q-ml-xl" src="src/assets/img/images/logo-no-text.png" alt="Логотип системы">
         </router-link>
       </div>
+      
       <q-space /> 
+      <div class="flex justify-end mt-base-10">
+          <q-btn dense flat round icon="lens" size="12.5px" :color="(wifi_flag ? 'green' : 'red')"> 
+          <q-tooltip
+          
+          anchor="center right"
+            self="center middle"
+          :offset="[-200, 200]"
+          :delay="400"
+        >
+        <div class="mt-base-15">Статус WI-FI</div>
+        <div>Красный цвет - нет соединения</div>
+        <div>Ораньжевый цвет - нет соединения с сервером</div>
+        <div>Зеленый цвет - есть соединение </div>
+        </q-tooltip>
+          </q-btn>
+          <q-btn dense flat round icon="lens" size="12.5px" :color="(phone_flag ? 'green' : 'red')"><q-tooltip
+          
+            anchor="center right"
+            self="center middle"
+          :offset="[-300, 0]"
+          :delay="400"
+        >
+        <div class="mt-base-15">Статус привязки номера</div>
+        <div>Красный цвет - ошибка сервера</div>
+        <div>Ораньжевый цвет - Требуется регистрация на<br> сайте stown.ooo с указанным н.т</div>
+        <div>Зеленый цвет - Этот сервер привязан к указанному номеру телефона </div>
+        </q-tooltip></q-btn>
+        </div>
     </q-toolbar>
   </q-header>
 </template>
 
 <script lang="ts">
 import { useAppStore } from 'stores/app.store';
-import {  defineComponent, } from 'vue';
+import { useIndicatorStore } from 'stores/indicator.store';
+import {  defineComponent, onMounted, ref, watch} from 'vue';
 import { storeToRefs } from 'pinia';
 import { routerMainPageName, loginPageName } from 'src/router/router.constants';
 import { useRouter } from 'vue-router';
+import { useIndicator } from 'src/composables/useIndicator';
 // import { HeaderProfileLink } from 'SharedComponents/header/profile.d';
 // import { useLocalAuthStore } from 'AdminDir/stores/auth.store';
 // import { useUserStore } from 'AdminDir/stores/user.store';
@@ -35,6 +66,7 @@ export default defineComponent({
     const router = useRouter();
 
     const appStore = useAppStore();
+    const indicatorStore = useIndicatorStore();
     // const authStore = useLocalAuthStore();
     // const userStore = useUserStore();
 
@@ -44,6 +76,24 @@ export default defineComponent({
       appStore.setCollapseSidebar(!collapseSidebar.value);
     };
 
+    const wifi_flag = ref(false);
+    const phone_flag = ref(false);
+    const $indicator = useIndicator();
+    const watchIndicator = () => {
+      wifi_flag.value = $indicator.indicatorDataSet.getActiveWifi()
+      phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
+    }
+    onMounted(
+      () => watchIndicator()
+    ),
+    watch(() => indicatorStore.activePhone, (newVal) => {
+      phone_flag.value = newVal;
+      console.log(newVal)
+    }),
+    watch(() => indicatorStore.activeWifi, (newVal) => {
+      wifi_flag.value = newVal;
+      console.log(newVal)
+    })
     // const linkListProfile: HeaderProfileLink[] = [
     //   { icon: 'las la-bars', name: 'Профиль пользователя', route: 'services' },
     //   { icon: 'phone', name: 'Мои заявления', route: 'services' },
@@ -70,7 +120,8 @@ export default defineComponent({
     return {
       routerMainPageName,
       changeVisibilitySidebar,
-      routeTo,
+      wifi_flag,
+      phone_flag,
     };
   },
 });
