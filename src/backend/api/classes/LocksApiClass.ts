@@ -4,7 +4,7 @@ import { LOCKS } from 'src/backend/endpoints/locks';
 import { User } from 'src/declarations/responses/user';
 
 export type LocksData =  { data: Locks.LocksBrief[]};
-
+//test
 export default class LocksApi {
 
   public static async list(): Promise<LocksData> {
