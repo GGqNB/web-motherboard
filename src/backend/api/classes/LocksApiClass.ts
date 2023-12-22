@@ -26,6 +26,16 @@ export default class LocksApi {
     return responseData;
   }
 
+  public static async update(data: Locks.LocksBare, id: number): Promise<Locks.LocksBrief> {
+    const responseData: Locks.LocksBrief = await axios({
+      ...LOCKS.UPDATE(id),
+      data,
+    })
+      .then((r): Locks.LocksBrief => r.data);
+
+    return responseData;
+  }
+
   // public static async bind_lock_phone(data: User.UserBare): Promise<{ messege : string }> {
   //   const responseData: { messege : string } = await axios({
   //     ...LOCKS,

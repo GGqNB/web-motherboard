@@ -3,60 +3,78 @@ import { Locks } from 'src/declarations/responses/locks';
 import LocksApi from 'src/backend/api/classes/LocksApiClass';
 import { makeRequest } from 'src/composables/useRequest';
 
-// import { useNotifications } from 'src/composables/useNotifications';
+import { useNotifications } from 'src/composables/useNotifications';
 // import { useCurrentUser } from 'src/declarations/composables/useCurrentUser'; 
 import { useLoading } from 'src/composables/useLoading';
 import UserApi from 'src/backend/api/classes/UserApiClass';
 import { useCurrentUser } from 'src/composables/useCurrentUser';
+import { findNextAddress } from 'src/utils/array';
 export function useList() {
     const { showLoading, hideLoading } = useLoading();
     const $user = useCurrentUser();
+    const $notify = useNotifications();
+
+
     const listLocks = ref<Locks.LocksBrief[]>([]);
     const lockData = ref<Locks.LocksBare>({
       name: '',
-      address: '0x',
+      address: '',
       sub_address: 0,
-      lock_type_id: 1,
+      lock_type_id: 0,
+      title : '',
+      open_time: 0,
+      close_time: 0,
     });
-    const uuid = ref({
-      uuid : '',
-    });
-    
+   
     const createLock = async () => {
-      // phoneData.value.phone = extractPhoneNumber(phoneData.value.phone)
-      uuid.value.uuid = $user.userDataSet.getUuid();
       showLoading();
-      const response = await makeRequest(async () =>
-        
-        LocksApi.create(lockData.value)); 
+      lockData.value.address = findNextAddress(listLocks.value);
+      lockData.value.name = newDevice.value.name;
+      lockData.value.lock_type_id = newDevice.value.lock_type.id;
+      lockData.value.close_time = newDevice.value.close_time;
+      lockData.value.open_time = newDevice.value.open_time;
+      lockData.value.sub_address = newDevice.value.sub_address;
+      if(lockData.value.address != 'error'){
+        const response = await makeRequest(async () =>
+        LocksApi.update(lockData.value, newDevice.value.id)); 
         if (response) {
           console.log(response);
           listLocks.value.push(response);
           hideLoading();
-        //   const res = await makeRequest(async () =>
-        //     UserApi.bind_lock(uuid.value, response.id)); 
-        //     if (response) {
-        //     console.log(res);
-            
-            
-        // }
         }else 
         {
           hideLoading();
         }
+      }else{
+        hideLoading();
+        $notify.error('У вас закончилось место')
+      }
+        
 
         
     };
     
-
-// Получите значение uuid с использованием watchUuid
    
 
-// Теперь currentUuid содержит текущее значение uuid из вашего хранилища
+    const newDevice = ref<Locks.LocksBrief>()
+    const searchDevice = () => {
+      
+      newDevice.value =  listLocks.value.find((obj) => obj.address === '0x0001');
+      if(newDevice.value){
+        $notify.success('Устройство найдено!')
+      } else {
+        $notify.warning('Устройство не обнаружено!')
+      }
+      console.log(newDevice.value);
+      //   activityTemplates.value[index] = res.data;
+      
+      
+    }
+
     const init = async (): Promise<void>  => {
       try {
        
-        showLoading();
+        // showLoading();
         const response = await makeRequest(async () =>
          LocksApi.list());
           
@@ -75,7 +93,9 @@ export function useList() {
     return {
       listLocks,
       init,
+      newDevice,
       createLock,
+      searchDevice,
       lockData,
 
     }

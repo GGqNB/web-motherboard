@@ -14,6 +14,12 @@ export const LOCKS = {
   } as IEndpointData,
   SHOW(id: number): IEndpointData {
     return {
+      method: 'GET',
+      url: `${locksUrl}/${id}`,
+    };
+  },
+  UPDATE(id: number): IEndpointData {
+    return {
       method: 'PUT',
       url: `${locksUrl}/${id}`,
     };

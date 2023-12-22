@@ -1,3 +1,4 @@
+import { useNotifications } from 'src/composables/useNotifications';
 /**
  * Получить уникальные значения массива
  * @param array массив
@@ -72,3 +73,24 @@ export const symmetricDifference = (arrA: Array<any>, arrB: Array<any>): Array<a
  * @returns
  */
 export const union = (arrA: Array<any>, arrB: Array<any>): Array<any> => [...arrA, ...arrB];
+
+export const findNextAddress = (obj) => {
+  const $notify = useNotifications();
+  const allAddresses = obj.map(lock => lock.address);
+  const filteredAddresses = allAddresses.filter(address =>
+    /^0x[0-9A-Fa-f]{4}$/.test(address)
+  );
+
+  const maxAddress = Math.max(
+    ...filteredAddresses.map(address => parseInt(address.slice(2), 16))
+  );
+  let nextAddress = `0x${(maxAddress + 1).toString(16).padStart(4, '0')}`;
+  
+  if (nextAddress != '0x0255'){
+    return nextAddress;
+  } else{
+    nextAddress = 'error';
+    return nextAddress;
+  }
+  
+}

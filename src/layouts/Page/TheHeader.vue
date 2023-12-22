@@ -106,7 +106,7 @@ export default defineComponent({
 
     // const profileRole = computed(() => userStore.roleName);
 
-    function routeTo(routeName) {
+    function routeTo(routeName ) {
       if (routeName === 'exit') {
        
         router.push({ name: loginPageName });

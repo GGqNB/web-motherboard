@@ -5,12 +5,20 @@
         title="Настройки устройства"
       />
       <div class="home_wrapper">
-        <SSelect label="Выберите устройство" v-model="lockData"  class="mt-base-40 " :options="listLocks" option-label="name">
+        <SSelect 
+        label="Выберите устройство" 
+        v-model="lockData"  
+        class="mt-base-40 " 
+        :options="listLocks" 
+        option-label="title">
       </SSelect>
-        
+        <div v-if="lockData.id !== 0" class="mt-base-15">
+        Сейчас время 1 составляет : {{ lockData.open_time }} сек
+        <div>Сейчас время 2 составляет : {{ lockData.close_time }} сек</div>
+        </div>
       </div>
       <div class="home_wrapper mt-base-15">
-        <div class=" mt-base-15">Привязка устройства {{ lockData.name }} по номеру</div>
+        <!-- <div class=" mt-base-15">Привязка устройства {{ lockData.name }} по номеру</div>
         <SInput 
         v-model="phoneData.phone" 
         class=" mt-base-15" 
@@ -24,32 +32,36 @@
         width="base-xxxl" 
         :disable="lockData.id == 0 ?? true" 
         class="mt-base-15" 
-        @click="bindLock()"/>
+        @click="bindLock()"/> -->
       </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SInput label="Время 1" icon="home" :readonly="timeFlagUp">
+        <SInput label="Время 1" icon="home" :readonly="timeFlagUp" >
           <template v-slot:append>
           <q-btn round dense flat icon="tune" @click="timeFlagUp = !timeFlagUp"/>
         </template>
           </SInput>
         <div class="s-input-settings ml-base-2">
-        <SInput label="5сек"/>
+        <SInput 
+          type="number"
+          max-length="1" 
+          label="секунд" 
+          v-model="lockFetchData.open_time" />
       </div>
       </div>
       </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SInput label="Время 2" icon="home" :readonly="timeFlagDown">
+        <SInput label="Время 2" icon="home" :readonly="timeFlagDown" >
           <template v-slot:append>
-          <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown"/>
+          <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown" />
         </template>
           </SInput>
         <div class="s-input-settings ml-base-2">
-        <SInput label="5сек"/>
+        <SInput type="number" label="секунд" v-model="lockFetchData.close_time" />
       </div>
       </div>
-      <SBtn label="Сохранить" width="base-xxxl" class="mt-base-15"  />
+      <SBtn label="Сохранить" width="base-xxxl" :disable="lockData.id == 0" class="mt-base-15"  @click="updateTimeLock"/>
       </div>
     </s-page>
   </template>
@@ -67,9 +79,9 @@
     setup() {
       const {
       listLocks,
-      bindLock,
-      phoneData,
       init,
+      lockFetchData,
+      updateTimeLock,
       lockData,
       } = useList();
       
@@ -84,9 +96,9 @@
   
       return {
         listLocks,
-        phoneData,
+        updateTimeLock,
         init,
-        bindLock,
+        lockFetchData,
         timeFlagUp,
         timeFlagDown,
         lockData,

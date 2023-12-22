@@ -2,18 +2,23 @@ export namespace Locks {
   export interface LocksBrief {
       name: string,
       address: string,
-      sub_address: number | string,
+      sub_address: number,
       id: number,
       nfc_keys?: Array<NFCkeyBrief>,
       lock_type?: LocksTypeBrief,
+      title : string,
+      open_time: number,
+      close_time: number,
   }
 
   export interface LocksBare {
     name: string
     address: string,
     sub_address: number,
-    lock_type_id: number
-
+    lock_type_id: number,
+    title : string,
+    open_time: number,
+    close_time: number,
   }
 
   //возможно bare
