@@ -75,7 +75,6 @@ export const symmetricDifference = (arrA: Array<any>, arrB: Array<any>): Array<a
 export const union = (arrA: Array<any>, arrB: Array<any>): Array<any> => [...arrA, ...arrB];
 
 export const findNextAddress = (obj) => {
-  const $notify = useNotifications();
   const allAddresses = obj.map(lock => lock.address);
   const filteredAddresses = allAddresses.filter(address =>
     /^0x[0-9A-Fa-f]{4}$/.test(address)

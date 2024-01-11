@@ -13,7 +13,7 @@ export function useList() {
     const { showLoading, hideLoading } = useLoading();
     const $user = useCurrentUser();
     const $notify = useNotifications();
-
+    const btnFlag = ref(true);
 
     const listLocks = ref<Locks.LocksBrief[]>([]);
     const lockData = ref<Locks.LocksBare>({
@@ -39,8 +39,10 @@ export function useList() {
         LocksApi.update(lockData.value, newDevice.value.id)); 
         if (response) {
           console.log(response);
+          listLocks.value.pop();
           listLocks.value.push(response);
           hideLoading();
+          btnFlag.value = true;
         }else 
         {
           hideLoading();
@@ -59,9 +61,10 @@ export function useList() {
     const newDevice = ref<Locks.LocksBrief>()
     const searchDevice = () => {
       
-      newDevice.value =  listLocks.value.find((obj) => obj.address === '0x0001');
+      newDevice.value =  listLocks.value.find((obj) => obj.title === '');
       if(newDevice.value){
         $notify.success('Устройство найдено!')
+        btnFlag.value = false;
       } else {
         $notify.warning('Устройство не обнаружено!')
       }
@@ -97,6 +100,7 @@ export function useList() {
       createLock,
       searchDevice,
       lockData,
+      btnFlag,
 
     }
   }

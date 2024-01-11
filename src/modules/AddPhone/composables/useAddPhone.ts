@@ -65,6 +65,7 @@ export function useList() {
 
     const init = async (): Promise<void>  => {
       showLoading();
+      phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
       isLoading.value = false;
       try {
         phoneConnect.value = $indicator.indicatorDataSet.getActivePhone();

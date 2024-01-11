@@ -15,10 +15,11 @@
             Ваши уже добавленные устройства :
         </div>
         <div v-for="i in listLocks" :key="i.id"  >
-          <div  v-if="i.address != '0x0001'" class="flex justify-between mt-base-20">
+          <div  v-if="i.title" class="flex justify-between mt-base-20">
             <div>
               {{ i.id }}.
               {{ i.title }}
+              <br>
               Адрес : 
               {{ i.address }}
             </div>
@@ -62,7 +63,7 @@
         Новое устройство типа : {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
         </div>
         <SInput label="Введите название" class="mt-base-15" v-model="lockData.title"/>
-        <SBtn label="Добавить" width="base-xxxl" @click=createLock() class="mt-base-15"/>
+        <SBtn label="Добавить" :disable="btnFlag" width="base-xxxl" @click=createLock() class="mt-base-15"/>
       </div>
       <div class="main_footer">
       </div>
@@ -86,6 +87,7 @@
       searchDevice,
       newDevice,
       lockData,
+      btnFlag,
       } = useList();
      
       onMounted(() => init());
@@ -95,6 +97,7 @@
       return {
       listLocks,
       init,
+      btnFlag,
       newDevice,
       createLock,
       lockData,

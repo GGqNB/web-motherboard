@@ -5,9 +5,9 @@
         :create-btn="false"
         title="Привязка номера телефона"
       />
-      <div class="home_wrapper">
+      <div class="home_wrapper" v-if="!phone_flag">
       
-        <div class="mt-base-35">Регистрация номера</div>
+        <div class="mt-base-35">Номер для использования одноплатника</div>
         <SInput 
         label="Введите номер телефона" 
         class="mt-base-5" 
@@ -18,6 +18,10 @@
         
         <SBtn label="Сохранить" width="base-xxxl" class="mt-base-15" :disable="phoneConnect" @click="addPhone()"/>
       </div>
+      <div class="home_wrapper" v-if="phone_flag">
+      <div class="mt-base-35">Номер для использования одноплатника</div>
+      <SBtn label="Использовать другой номер" width="base-xxxl" class="mt-base-15" @click="phone_flag = !phone_flag"/>
+    </div>
       <div class="home_wrapper">
        
         <div class="mt-base-15">Подключение wi-fi сети</div>
