@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ref } from 'vue';
 import { Locks } from 'src/declarations/responses/locks';
 import LocksApi from 'src/backend/api/classes/LocksApiClass';
 import { makeRequest } from 'src/composables/useRequest';
-
+import { User } from 'src/declarations/responses/user';
 import { useNotifications } from 'src/composables/useNotifications';
 // import { useCurrentUser } from 'src/declarations/composables/useCurrentUser'; 
 import { useLoading } from 'src/composables/useLoading';
@@ -25,10 +26,12 @@ export function useList() {
       open_time: 0,
       close_time: 0,
     });
-   
+    const uuid = ref<User.UserBare>({
+      uuid: '',
+    });
     const createLock = async () => {
       showLoading();
-      lockData.value.address = findNextAddress(listLocks.value);
+      lockData.value.address = newDevice.value.address;
       lockData.value.name = newDevice.value.name;
       lockData.value.lock_type_id = newDevice.value.lock_type.id;
       lockData.value.close_time = newDevice.value.close_time;
@@ -43,17 +46,23 @@ export function useList() {
           listLocks.value.push(response);
           hideLoading();
           btnFlag.value = true;
+
+          const res = await makeRequest(async () =>
+          UserApi.getPhone()); 
+          if (res) {
+           console.log(res.uuid);
+           //@ts-ignore
+           uuid.value.uuid = res.uuid;
+          }
+       
         }else 
         {
           hideLoading();
         }
       }else{
         hideLoading();
-        $notify.error('У вас закончилось место')
       }
-        
-
-        
+      bindLocks();
     };
     
    
@@ -71,6 +80,18 @@ export function useList() {
       console.log(newDevice.value);
       //   activityTemplates.value[index] = res.data;
       
+      
+    }
+    
+    const bindLocks = async () => {
+      const responce = await makeRequest(async () =>
+      UserApi.bindLocks(uuid.value)); 
+      if (responce) {
+        console.log(responce)
+        $notify.success('Устройства привязаны')
+      }else{
+        $notify.error('Устройство не привязано')
+      }
       
     }
 
@@ -101,6 +122,7 @@ export function useList() {
       searchDevice,
       lockData,
       btnFlag,
+      bindLocks,
 
     }
   }

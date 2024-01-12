@@ -33,6 +33,28 @@
         
       </div>
       <div class="home_wrapper">
+        <div class="fs-8 mt-base-40">
+             Не добавленные устройства :
+        </div>
+        <div v-for="i in listLocks" :key="i.id"  >
+          <div  v-if="!i.title" class="flex justify-between mt-base-20">
+            <div>
+              {{ i.id }}.
+              Нет имени
+              <br>
+              Адрес : 
+              {{ i.address }}
+            </div>
+        <div>
+        <q-btn dense flat round icon="lens" size="12.5px" color="red" />
+        </div></div>
+        
+
+      </div>
+  
+        
+      </div>
+      <div class="home_wrapper">
       <div class="flex mt-base-15" >
         <SBtn label="Проверка нового устройства" @click = "searchDevice" width="base-xxxl" class="mt-base-15" />
         <SBtn 
@@ -61,9 +83,13 @@
       <div class="home_wrapper ">
         <div v-if="newDevice" class="mt-base-15">
         Новое устройство типа : {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
+        <div>
+          Адрес нового устройства : {{  newDevice.address }}
+          </div>
         </div>
         <SInput label="Введите название" class="mt-base-15" v-model="lockData.title"/>
         <SBtn label="Добавить" :disable="btnFlag" width="base-xxxl" @click=createLock() class="mt-base-15"/>
+        <!-- <SBtn label="Еще раз привязать устройства" :disable="btnFlag" width="base-xxxl" @click=bindLocks() class="mt-base-15"/> -->
       </div>
       <div class="main_footer">
       </div>
@@ -88,6 +114,7 @@
       newDevice,
       lockData,
       btnFlag,
+      bindLocks,
       } = useList();
      
       onMounted(() => init());
@@ -101,6 +128,7 @@
       newDevice,
       createLock,
       lockData,
+      bindLocks,
       searchDevice,
       };
     },

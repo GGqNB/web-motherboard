@@ -5,6 +5,10 @@ const userUrl = `${API_SERVER}/user`;
 
 
 export const USER = {
+  GET: {
+    method: 'GET',
+    url: `${userUrl}/`,
+  } as IEndpointData,
   CREATE: {
     method: 'POST',
     url: `${userUrl}/`,
@@ -19,12 +23,11 @@ export const USER = {
       url: `${userUrl}/bind/locks/${id}`,
     };
   },
-  BIND_ALL_LOCK(): IEndpointData {
-    return {
-      method: 'POST',
-      url: `${userUrl}/bind/locks/`,
-    };
-  },
+    BIND_ALL_LOCK: {
+    method: 'POST',
+    url: `${userUrl}/bind/locks/`,
+  } as IEndpointData,
+
   DELETE(): IEndpointData {
     return {
       method: 'DELETE',
