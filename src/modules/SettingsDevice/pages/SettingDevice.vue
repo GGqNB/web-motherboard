@@ -13,8 +13,10 @@
         option-label="title">
       </SSelect>
         <div v-if="lockData.id !== 0" class="mt-base-15">
-        Сейчас время 1 составляет : {{ lockData.open_time }} сек
-        <div>Сейчас время 2 составляет : {{ lockData.close_time }} сек</div>
+        Сейчас время 1 составляет : {{ lockData.open_time / 10 }} сек
+        <div v-if="lockFetchData.lock_type_id == 2">
+          Сейчас время 2 составляет : {{ lockData.close_time }} сек
+        </div>
         </div>
       </div>
       <div class="home_wrapper mt-base-15">
@@ -51,14 +53,17 @@
       </div>
       </div>
       <div class="home_wrapper">
-      <div class="flex mt-base-15" >
+      <div class="flex mt-base-15" v-if="lockFetchData.lock_type_id == 2">
         <SInput label="Время 2" icon="home" :readonly="timeFlagDown" >
           <template v-slot:append>
           <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown" />
         </template>
           </SInput>
         <div class="s-input-settings ml-base-2">
-        <SInput type="number" label="секунд" v-model="lockFetchData.close_time" />
+        <SInput
+         type="number" 
+         label="секунд"
+          v-model="lockFetchData.close_time" />
       </div>
       </div>
       <SBtn label="Сохранить" width="base-xxxl" :disable="lockData.id == 0" class="mt-base-15"  @click="updateTimeLock"/>

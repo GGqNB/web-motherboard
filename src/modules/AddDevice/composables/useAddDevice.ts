@@ -10,6 +10,7 @@ import { useLoading } from 'src/composables/useLoading';
 import UserApi from 'src/backend/api/classes/UserApiClass';
 import { useCurrentUser } from 'src/composables/useCurrentUser';
 import { findNextAddress } from 'src/utils/array';
+import SystemApi from 'src/backend/api/classes/SystemApiClass';
 export function useList() {
     const { showLoading, hideLoading } = useLoading();
     const $user = useCurrentUser();
@@ -63,6 +64,7 @@ export function useList() {
         hideLoading();
       }
       bindLocks();
+      refreshSystem();
     };
     
    
@@ -92,7 +94,13 @@ export function useList() {
       }else{
         $notify.error('Устройство не привязано')
       }
-      
+    }
+
+    const refreshSystem = async () => {
+      const responce = await makeRequest(async () =>
+      SystemApi.get()); 
+      if (responce) {
+      }
     }
 
     const init = async (): Promise<void>  => {
@@ -105,6 +113,7 @@ export function useList() {
         if (response) {
           listLocks.value = response.data ;
           console.log( listLocks.value);
+          searchDevice();
         } else{
           hideLoading();
             

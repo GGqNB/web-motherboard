@@ -1,5 +1,5 @@
 <template>
-    <s-page>
+    <s-page v-if="listLocks">
       <s-header
         :create-btn="false"
         title="Добавление нового устройства"
@@ -12,7 +12,7 @@
       </div> -->
       <div class="home_wrapper">
         <div class="fs-8 mt-base-40">
-            Ваши уже добавленные устройства :
+            Ваши устройства :
         </div>
         <div v-for="i in listLocks" :key="i.id"  >
           <div  v-if="i.title" class="flex justify-between mt-base-20">
@@ -34,13 +34,13 @@
       </div>
       <div class="home_wrapper">
         <div class="fs-8 mt-base-40">
-             Не добавленные устройства :
+             Новые устройства :
         </div>
         <div v-for="i in listLocks" :key="i.id"  >
           <div  v-if="!i.title" class="flex justify-between mt-base-20">
             <div>
               {{ i.id }}.
-              Нет имени
+              {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
               <br>
               Адрес : 
               {{ i.address }}
@@ -56,8 +56,8 @@
       </div>
       <div class="home_wrapper">
       <div class="flex mt-base-15" >
-        <SBtn label="Проверка нового устройства" @click = "searchDevice" width="base-xxxl" class="mt-base-15" />
-        <SBtn 
+        <!-- <SBtn label="Проверка нового устройства" @click = "searchDevice" width="base-xxxl" class="mt-base-15" /> -->
+        <!-- <SBtn 
         label="Развернуть инструкцию по проверке" 
         width="base-xxxl" 
         class="mt-base-15" 
@@ -76,17 +76,17 @@
         <div class="mt-base-15"> Шаг 3: Подключение к Сети</div>
         <div>Используя предоставленный сетевой кабель, подключите устройство XYZ к сети интернет. Если устройство<br> имеет функцию беспроводного подключения, следуйте инструкциям в руководстве пользователя для настройки Wi-Fi.</div>
         </q-tooltip>
-      </SBtn>
+      </SBtn> -->
       
       </div>
       </div>
       <div class="home_wrapper ">
-        <div v-if="newDevice" class="mt-base-15">
+        <!-- <div v-if="newDevice" class="mt-base-15">
         Новое устройство типа : {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
         <div>
           Адрес нового устройства : {{  newDevice.address }}
           </div>
-        </div>
+        </div> -->
         <SInput label="Введите название" class="mt-base-15" v-model="lockData.title"/>
         <SBtn label="Добавить" :disable="btnFlag" width="base-xxxl" @click=createLock() class="mt-base-15"/>
         <!-- <SBtn label="Еще раз привязать устройства" :disable="btnFlag" width="base-xxxl" @click=bindLocks() class="mt-base-15"/> -->

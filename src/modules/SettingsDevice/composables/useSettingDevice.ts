@@ -44,18 +44,25 @@ export function useList() {
  
 
     const updateTimeLock = async () => {
-      lockFetchData.value.open_time = Number( lockFetchData.value.open_time);
-      lockFetchData.value.close_time = Number( lockFetchData.value.close_time);
+      if(Number(lockFetchData.value.open_time)< 26){
+      lockFetchData.value.open_time = Number(lockFetchData.value.open_time) * 10;
+      lockFetchData.value.close_time = Number(lockFetchData.value.close_time) * 10;
       const response = await makeRequest(async () =>
         LocksApi.update(lockFetchData.value, lockData.value.id)); 
         if (response) {
           notification.success('Время успешно изменено');
           lockData.value.open_time = lockFetchData.value.open_time;
           lockData.value.close_time = lockFetchData.value.close_time;
+          lockFetchData.value.open_time = lockFetchData.value.open_time / 10;
+
         }else 
         {
           notification.warning('Произошла ошибка');
         }
+      }else{
+        notification.warning('Много времени');
+      }
+      
     }
 
     const init = async (): Promise<void>  => {
