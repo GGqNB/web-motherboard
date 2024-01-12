@@ -19,6 +19,9 @@ export const useUserStore = defineStore('user', {
     getUuid: (state: UserStateInterface) => state.uuid,
     watchUuid: (state): string => {
       return state.uuid;
+    },
+    watchPhone: (state): string => {
+      return state.phone;
     }
   },
 

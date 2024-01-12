@@ -21,10 +21,9 @@
           :offset="[-200, 200]"
           :delay="400"
         >
-        <div class="mt-base-15">Статус WI-FI</div>
-        <div>Красный цвет - нет соединения</div>
-        <div>Ораньжевый цвет - нет соединения с сервером</div>
-        <div>Зеленый цвет - есть соединение </div>
+        <div v-if="!wifi_flag">Красный цвет - нет соединения</div>
+        <!-- <div>Ораньжевый цвет - нет соединения с сервером</div> -->
+        <div v-if="wifi_flag">Зеленый цвет - есть соединение </div>
         </q-tooltip>
           </q-btn>
           <q-btn dense flat round icon="lens" size="12.5px" :color="(phone_flag ? 'green' : 'red')"><q-tooltip
@@ -34,10 +33,10 @@
           :offset="[-300, 0]"
           :delay="400"
         >
-        <div class="mt-base-15">Статус привязки номера</div>
-        <div>Красный цвет - ошибка сервера</div>
-        <div>Ораньжевый цвет - Требуется регистрация на<br> сайте stown.ooo с указанным н.т</div>
-        <div>Зеленый цвет - Этот сервер привязан к указанному номеру телефона </div>
+        <!-- <div>Красный цвет - ошибка сервера</div>
+        <div>Ораньжевый цвет - Требуется регистрация на<br> сайте stown.ooo с указанным н.т</div> -->
+        <div v-if="phone !== null">Привязанный номер телефона {{ phone }}</div>
+        <div v-if="phone == null">Красный цвет - ошибка сервера</div>
         </q-tooltip></q-btn>
         </div>
     </q-toolbar>
@@ -52,6 +51,7 @@ import { storeToRefs } from 'pinia';
 import { routerMainPageName, loginPageName } from 'src/router/router.constants';
 import { useRouter } from 'vue-router';
 import { useIndicator } from 'src/composables/useIndicator';
+import { useCurrentUser } from 'src/composables/useCurrentUser'; 
 // import { HeaderProfileLink } from 'SharedComponents/header/profile.d';
 // import { useLocalAuthStore } from 'AdminDir/stores/auth.store';
 // import { useUserStore } from 'AdminDir/stores/user.store';
@@ -64,11 +64,16 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-
+    const $currentUser = useCurrentUser();
     const appStore = useAppStore();
     const indicatorStore = useIndicatorStore();
     // const authStore = useLocalAuthStore();
     // const userStore = useUserStore();
+
+    const phone = ref('');
+    const getUser = () => {
+      phone.value = $currentUser.userDataSet.getPhone() 
+    }
 
     const { collapseSidebar } = storeToRefs(appStore);
 
@@ -85,6 +90,9 @@ export default defineComponent({
     }
     onMounted(
       () => watchIndicator()
+    ),
+    onMounted(
+      () => getUser()
     ),
     watch(() => indicatorStore.activePhone, (newVal) => {
       phone_flag.value = newVal;
@@ -122,6 +130,7 @@ export default defineComponent({
       changeVisibilitySidebar,
       wifi_flag,
       phone_flag,
+      phone,
     };
   },
 });

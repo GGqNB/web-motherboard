@@ -30,6 +30,9 @@ export function useCurrentUser() {
     getUuid() {
      return userStore.watchUuid;
     },
+    getPhone() {
+      return userStore.watchPhone;
+     },
     logout() {
     //   userStore.clearUser();
     //   authStore.logout();
