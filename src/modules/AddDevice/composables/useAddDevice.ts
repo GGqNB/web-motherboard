@@ -47,11 +47,11 @@ export function useList() {
           listLocks.value.push(response);
           hideLoading();
           btnFlag.value = true;
-
+          lockData.value.title = '';
+          init()
           const res = await makeRequest(async () =>
           UserApi.getPhone()); 
           if (res) {
-           console.log(res.uuid);
            //@ts-ignore
            uuid.value.uuid = res.uuid;
           }
@@ -66,8 +66,14 @@ export function useList() {
       bindLocks();
       refreshSystem();
     };
-    
-   
+    const foundFirstElement = ref(false);
+    const shouldDisplayElement = (item) => {
+      if (!item.title && !foundFirstElement.value) {
+        foundFirstElement.value = true;
+        return true;
+      }
+      return false;
+    };
 
     const newDevice = ref<Locks.LocksBrief>()
     const searchDevice = () => {
@@ -77,9 +83,7 @@ export function useList() {
         $notify.success('Устройство найдено!')
         btnFlag.value = false;
       } else {
-        $notify.warning('Устройство не обнаружено!')
       }
-      console.log(newDevice.value);
       //   activityTemplates.value[index] = res.data;
       
       
@@ -102,6 +106,11 @@ export function useList() {
       if (responce) {
       }
     }
+    
+    const newLocks = ref<Locks.LocksBrief[]>([]);
+    const filterNewLocksArray = (array : Locks.LocksBrief[]) => {
+      return array.filter(item => item.title === '');
+    };
 
     const init = async (): Promise<void>  => {
       try {
@@ -111,8 +120,8 @@ export function useList() {
          LocksApi.list());
           
         if (response) {
-          listLocks.value = response.data ;
-          console.log( listLocks.value);
+          listLocks.value = response.data;
+          newLocks.value = filterNewLocksArray(listLocks.value);
           searchDevice();
         } else{
           hideLoading();
@@ -132,6 +141,9 @@ export function useList() {
       lockData,
       btnFlag,
       bindLocks,
+      shouldDisplayElement,
+      foundFirstElement,
+      newLocks,
 
     }
   }

@@ -52,6 +52,10 @@ import { routerMainPageName, loginPageName } from 'src/router/router.constants';
 import { useRouter } from 'vue-router';
 import { useIndicator } from 'src/composables/useIndicator';
 import { useCurrentUser } from 'src/composables/useCurrentUser'; 
+import { makeRequest } from 'src/composables/useRequest';
+import NetworkApi from 'src/backend/api/classes/NetworkApiClass';
+import { Network } from 'src/declarations/responses/network';
+import { useLoading } from 'src/composables/useLoading';
 // import { HeaderProfileLink } from 'SharedComponents/header/profile.d';
 // import { useLocalAuthStore } from 'AdminDir/stores/auth.store';
 // import { useUserStore } from 'AdminDir/stores/user.store';
@@ -69,23 +73,44 @@ export default defineComponent({
     const indicatorStore = useIndicatorStore();
     // const authStore = useLocalAuthStore();
     // const userStore = useUserStore();
-
+    const { showLoading, hideLoading } = useLoading();
     const phone = ref('');
     const getUser = () => {
       phone.value = $currentUser.userDataSet.getPhone() 
     }
-
+    const activeWifi = ref<Network.NetworkBrief[]>([])
     const { collapseSidebar } = storeToRefs(appStore);
-
     const changeVisibilitySidebar = () => {
       appStore.setCollapseSidebar(!collapseSidebar.value);
     };
-
+    const listWifi = ref<Network.NetworkBrief[]>([]);
+      const checkWifi = async () => {
+       try {
+        showLoading()
+        const response = await makeRequest(async () => NetworkApi.list());
+         if (response) {
+           listWifi.value = response.data;
+           activeWifi.value = listWifi.value.filter(item => item.connected == true);
+           console.log(activeWifi.value);
+           hideLoading()
+           if(activeWifi.value.length == 0){
+            return false
+           }else{
+            return true
+           }
+         }
+       } finally {
+        hideLoading()
+       }
+    }
+    
     const wifi_flag = ref(false);
     const phone_flag = ref(false);
     const $indicator = useIndicator();
     const watchIndicator = () => {
-      wifi_flag.value = $indicator.indicatorDataSet.getActiveWifi()
+      checkWifi().then(result => {
+        wifi_flag.value = result; // Присваиваем результат переменной wifi_flag.value
+      });
       phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
     }
     onMounted(
@@ -98,10 +123,10 @@ export default defineComponent({
       phone_flag.value = newVal;
       console.log(newVal)
     }),
-    watch(() => indicatorStore.activeWifi, (newVal) => {
-      wifi_flag.value = newVal;
-      console.log(newVal)
-    })
+    // watch(() => indicatorStore.activeWifi, (newVal) => {
+    //   wifi_flag.value = newVal;
+    //   console.log(newVal)
+    // })
     // const linkListProfile: HeaderProfileLink[] = [
     //   { icon: 'las la-bars', name: 'Профиль пользователя', route: 'services' },
     //   { icon: 'phone', name: 'Мои заявления', route: 'services' },

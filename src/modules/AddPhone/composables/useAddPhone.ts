@@ -61,21 +61,19 @@ export function useList() {
   }
     
     
-    const listWifi = ref<Network.NetworkBare[]>([]);
+    const listWifi = ref<Network.NetworkBrief[]>([]);
 
     const init = async (): Promise<void>  => {
       showLoading();
       phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
       isLoading.value = false;
       try {
-        phoneConnect.value = $indicator.indicatorDataSet.getActivePhone();
         const response = await makeRequest(async () =>
-          NetworkApi.list());
+        NetworkApi.list());
           
         if (response) {
           listWifi.value = response.data ;
           isLoading.value = true;
-          console.log( listWifi.value);
         }
       } finally {
        hideLoading()

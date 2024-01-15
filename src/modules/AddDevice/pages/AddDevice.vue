@@ -24,7 +24,7 @@
               {{ i.address }}
             </div>
         <div>
-        <q-btn dense flat round icon="lens" size="12.5px" color="green" />
+        <!-- <q-btn dense flat round icon="lens" size="12.5px" color="green" /> -->
         </div></div>
         
 
@@ -36,21 +36,19 @@
         <div class="fs-8 mt-base-40">
              Новые устройства :
         </div>
-        <div v-for="i in listLocks" :key="i.id"  >
-          <div  v-if="!i.title" class="flex justify-between mt-base-20">
-            <div>
-              {{ i.id }}.
-              {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
-              <br>
-              Адрес : 
-              {{ i.address }}
-            </div>
-        <div>
-        <q-btn dense flat round icon="lens" size="12.5px" color="red" />
-        </div></div>
-        
-
+        <div v-for="(i, index) in newLocks" :key="index">
+      <div v-if="index == 0" class="flex justify-between mt-base-20">
+      <div>
+        {{ newDevice.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
+        <br>
+        Адрес : 
+        {{ i.address }}
       </div>
+      <div>
+        <!-- Дополнительные элементы внутри блока, если необходимо -->
+      </div>
+    </div>
+  </div>
   
         
       </div>
@@ -115,6 +113,9 @@
       lockData,
       btnFlag,
       bindLocks,
+      shouldDisplayElement,
+      foundFirstElement,
+      newLocks,
       } = useList();
      
       onMounted(() => init());
@@ -130,6 +131,9 @@
       lockData,
       bindLocks,
       searchDevice,
+      shouldDisplayElement,
+      newLocks,
+      foundFirstElement,
       };
     },
   });

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Network } from 'src/declarations/responses/network';
 import { NETWORK } from 'src/backend/endpoints/network';
 
-export type NetworkData =  { data: Network.NetworkBare[] };
+export type NetworkData =  { data: Network.NetworkBrief[] };
 // export type UserActionResponse = {
 //   data: Users.UserResponseInfo;
 //   message: string;
