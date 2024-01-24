@@ -13,14 +13,14 @@ export const USER = {
     method: 'POST',
     url: `${userUrl}/`,
   } as IEndpointData,
-  CHECK: {
+  LOGIN: {
     method: 'POST',
-    url: `${userUrl}/`,
+    url: `${userUrl}/auth`,
   } as IEndpointData,
-  BIND_LOCK(id: number): IEndpointData {
+  BIND_LOCK(addr: string): IEndpointData {
     return {
       method: 'POST',
-      url: `${userUrl}/bind/locks/${id}`,
+      url: `${userUrl}/bind/locks/${addr}`,
     };
   },
     BIND_ALL_LOCK: {

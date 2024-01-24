@@ -26,14 +26,15 @@ export function useList() {
     ssid : '',
     password: '',
   });
-  const phoneData = ref({
-    phone : '',
+  const userData = ref({
+    username : '',
+    password: ''
   });
  
   const addPhone = async () => {
-    phoneData.value.phone = stringNumberWithoutSymbols(phoneData.value.phone)
+    userData.value.username = stringNumberWithoutSymbols(userData.value.username)
     const response = await makeRequest(async () =>
-      UserApi.check_create(phoneData.value));
+      UserApi.login(userData.value));
       try{
         if (response) {
           $currentUser.userDataSet.setPhone(response.data.phone); 
@@ -91,7 +92,7 @@ export function useList() {
       wifiPassword,
       phone_flag,
       addPhone,
-      phoneData,
+      userData,
 
     }
   }

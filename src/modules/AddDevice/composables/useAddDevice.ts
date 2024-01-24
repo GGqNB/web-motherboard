@@ -9,11 +9,9 @@ import { useNotifications } from 'src/composables/useNotifications';
 import { useLoading } from 'src/composables/useLoading';
 import UserApi from 'src/backend/api/classes/UserApiClass';
 import { useCurrentUser } from 'src/composables/useCurrentUser';
-import { findNextAddress } from 'src/utils/array';
 import SystemApi from 'src/backend/api/classes/SystemApiClass';
 export function useList() {
     const { showLoading, hideLoading } = useLoading();
-    const $user = useCurrentUser();
     const $notify = useNotifications();
     const btnFlag = ref(true);
 
@@ -49,13 +47,7 @@ export function useList() {
           btnFlag.value = true;
           lockData.value.title = '';
           init()
-          const res = await makeRequest(async () =>
-          UserApi.getPhone()); 
-          if (res) {
-           //@ts-ignore
-           uuid.value.uuid = res.uuid;
-          }
-       
+
         }else 
         {
           hideLoading();
@@ -91,7 +83,7 @@ export function useList() {
     
     const bindLocks = async () => {
       const responce = await makeRequest(async () =>
-      UserApi.bindLocks(uuid.value)); 
+      UserApi.bind_lock(newDevice.value.address)); 
       if (responce) {
         console.log(responce)
         $notify.success('Устройства привязаны')

@@ -4,6 +4,10 @@ export namespace User {
     uuid: string,
   }
   
+  export interface UserData {
+    username: string,
+    password: string,
+  }
 
   export interface UserBare {
     uuid: string,

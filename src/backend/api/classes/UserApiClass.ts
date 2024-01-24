@@ -6,9 +6,9 @@ export type UserData =  { data: User.UserBrief };
 
 export default class UserApi {
 
-  public static async check_create(data: User.UserPhone): Promise<UserData> {
+  public static async login(data: User.UserData): Promise<UserData> {
     const responseData: UserData = await axios({
-      ...USER.CHECK,
+      ...USER.LOGIN,
       data,
     })
       .then((r): UserData => r);
@@ -45,10 +45,9 @@ export default class UserApi {
     return responseData;
   }
 
-  public static async bind_lock(data: User.UserBare, id : number): Promise<User.UserBrief> {
+  public static async bind_lock(addr : string): Promise<User.UserBrief> {
     const responseData: User.UserBrief = await axios({
-      ...USER.BIND_LOCK(id),
-      data,
+      ...USER.BIND_LOCK(addr),
     })
       .then((r): User.UserBrief => r.data);
 
