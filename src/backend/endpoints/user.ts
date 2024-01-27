@@ -9,6 +9,10 @@ export const USER = {
     method: 'GET',
     url: `${userUrl}/`,
   } as IEndpointData,
+  ME: {
+    method: 'GET',
+    url: `${userUrl}/profile`,
+  } as IEndpointData,
   CREATE: {
     method: 'POST',
     url: `${userUrl}/`,
@@ -17,10 +21,10 @@ export const USER = {
     method: 'POST',
     url: `${userUrl}/auth`,
   } as IEndpointData,
-  BIND_LOCK(addr: string): IEndpointData {
+  BIND_LOCK(id: number): IEndpointData {
     return {
-      method: 'POST',
-      url: `${userUrl}/bind/locks/${addr}`,
+      method: 'GET',
+      url: `${userUrl}/bind/lock/${id}`,
     };
   },
     BIND_ALL_LOCK: {

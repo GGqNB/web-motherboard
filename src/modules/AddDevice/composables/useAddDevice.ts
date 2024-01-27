@@ -83,7 +83,7 @@ export function useList() {
     
     const bindLocks = async () => {
       const responce = await makeRequest(async () =>
-      UserApi.bind_lock(newDevice.value.address)); 
+      UserApi.bind_lock(newDevice.value.id)); 
       if (responce) {
         console.log(responce)
         $notify.success('Устройства привязаны')

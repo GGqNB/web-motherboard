@@ -16,6 +16,16 @@ export default class UserApi {
     return responseData;
   }
 
+  public static async me(): Promise<User.UserProfileBrief> {
+    const responseData: User.UserProfileBrief = await axios({
+      ...USER.ME,
+    })
+      .then((r): User.UserProfileBrief => r.data);
+
+    return responseData;
+  }
+  
+
   public static async getPhone(): Promise<User.UserBrief> {
     const responseData: User.UserBrief = await axios({
       ...USER.GET,
@@ -45,9 +55,9 @@ export default class UserApi {
     return responseData;
   }
 
-  public static async bind_lock(addr : string): Promise<User.UserBrief> {
+  public static async bind_lock(id : number): Promise<User.UserBrief> {
     const responseData: User.UserBrief = await axios({
-      ...USER.BIND_LOCK(addr),
+      ...USER.BIND_LOCK(id),
     })
       .then((r): User.UserBrief => r.data);
 

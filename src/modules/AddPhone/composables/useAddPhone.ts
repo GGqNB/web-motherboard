@@ -39,8 +39,10 @@ export function useList() {
         if (response) {
           $currentUser.userDataSet.setPhone(response.data.phone); 
           $currentUser.userDataSet.setUuid(response.data.uuid); 
+          getMe();
           $indicator.indicatorDataSet.setActivePhone(true);
           notification.success('Успешное сохранение номера');
+          
           
         }
       }catch {
@@ -60,7 +62,15 @@ export function useList() {
       notification.error('Неправильный пароль');
     
   }
+  
+  const getMe = async () => {
+    const response = await makeRequest(async () =>
+      UserApi.me()); 
+      if (response) {
+        notification.success('Я работаю,');
+      }
     
+  }
     
     const listWifi = ref<Network.NetworkBrief[]>([]);
 
