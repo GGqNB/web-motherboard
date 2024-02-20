@@ -10,11 +10,13 @@ import { useLoading } from 'src/composables/useLoading';
 import UserApi from 'src/backend/api/classes/UserApiClass';
 import { useCurrentUser } from 'src/composables/useCurrentUser';
 import SystemApi from 'src/backend/api/classes/SystemApiClass';
+import { useRoute } from "vue-router";
+
 export function useList() {
     const { showLoading, hideLoading } = useLoading();
     const $notify = useNotifications();
     const btnFlag = ref(true);
-
+    const $route = useRoute();
     const listLocks = ref<Locks.LocksBrief[]>([]);
     const lockData = ref<Locks.LocksBare>({
       name: '',
@@ -136,6 +138,7 @@ export function useList() {
       shouldDisplayElement,
       foundFirstElement,
       newLocks,
+      $route,
 
     }
   }

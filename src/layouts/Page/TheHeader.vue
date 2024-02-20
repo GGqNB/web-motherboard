@@ -7,7 +7,7 @@
         </q-btn>
         <router-link :to="{ name: routerMainPageName }">
           <!-- TODO: Лого нужно, лого нет -->
-          <img class="s-header-logo q-ml-xl" src="src/assets/img/images/logo-no-text.png" alt="Логотип системы">
+          <img class="s-header-logo q-ml-xl" src="icons/logo.png" alt="Логотип системы">
         </router-link>
       </div>
       

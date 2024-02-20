@@ -48,7 +48,7 @@
 import { computed, defineComponent, onMounted } from 'vue';
 // import SInput from 'src/components/ui/Input.vue';
 import { useList } from '../composables/useAddPhone';
-
+import { useMeta } from 'quasar';
 
 
 export default defineComponent({
@@ -57,6 +57,7 @@ export default defineComponent({
   },
   setup() {
     const {
+    $route ,
     listWifi,
     init,
     selectedWifi,
@@ -78,7 +79,7 @@ export default defineComponent({
   //   // Убираем маску перед сохранением в переменную phone
   //   phoneData.value.phone = value.replace(/\D/g, '');
   // };
-
+  onMounted(() => useMeta($route.meta));
   onMounted(() => init());
     // eslint-disable-next-line no-return-assign
     // mask=" +7 (###) ###-##-##"

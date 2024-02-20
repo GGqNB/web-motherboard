@@ -96,7 +96,7 @@
   <script lang="ts">
   import { defineComponent, ref, onMounted } from 'vue';
   import { useList } from '../composables/useAddDevice';
-  
+  import { useMeta } from 'quasar';
   
   export default defineComponent({
     name: 'AddDevicePage',
@@ -113,11 +113,12 @@
       lockData,
       btnFlag,
       bindLocks,
+      $route,
       shouldDisplayElement,
       foundFirstElement,
       newLocks,
       } = useList();
-     
+      onMounted(() => useMeta($route.meta));
       onMounted(() => init());
       // eslint-disable-next-line no-return-assign
 

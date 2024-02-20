@@ -8,13 +8,14 @@ import { useCurrentUser } from 'src/composables/useCurrentUser';
 import { stringNumberWithoutSymbols }  from 'src/utils/helpers';
 import { useLoading } from 'src/composables/useLoading';
 import { useIndicator } from 'src/composables/useIndicator';
+import { useRoute } from "vue-router";
 
 export function useList() {
   const $currentUser = useCurrentUser();
   const { showLoading, hideLoading } = useLoading();
   const $indicator = useIndicator();
   const notification = useNotifications();
-
+  const $route = useRoute();
   const isLoading = ref(false);
   const wifi_flag = ref(false);
   const phone_flag = ref(false);
@@ -103,6 +104,7 @@ export function useList() {
       phone_flag,
       addPhone,
       userData,
+      $route,
 
     }
   }
