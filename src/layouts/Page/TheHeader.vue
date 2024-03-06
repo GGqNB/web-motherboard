@@ -56,6 +56,7 @@ import { makeRequest } from 'src/composables/useRequest';
 import NetworkApi from 'src/backend/api/classes/NetworkApiClass';
 import { Network } from 'src/declarations/responses/network';
 import { useLoading } from 'src/composables/useLoading';
+import UserApi from 'src/backend/api/classes/UserApiClass';
 // import { HeaderProfileLink } from 'SharedComponents/header/profile.d';
 // import { useLocalAuthStore } from 'AdminDir/stores/auth.store';
 // import { useUserStore } from 'AdminDir/stores/user.store';
@@ -75,8 +76,20 @@ export default defineComponent({
     // const userStore = useUserStore();
     const { showLoading, hideLoading } = useLoading();
     const phone = ref('');
-    const getUser = () => {
-      phone.value = $currentUser.userDataSet.getPhone() 
+    const getUser = async () => {
+      try{
+        const response = await makeRequest(async () =>
+        UserApi.me()); 
+        if (response) {
+          phone_flag.value = true;
+          phone.value = response.first_name + ' ' + response.last_name;
+          $indicator.indicatorDataSet.setActivePhone(true);
+        }
+      }catch{
+        phone_flag.value = false;
+        $indicator.indicatorDataSet.setActivePhone(false);
+
+      }
     }
     const activeWifi = ref<Network.NetworkBrief[]>([])
     const { collapseSidebar } = storeToRefs(appStore);
@@ -109,9 +122,9 @@ export default defineComponent({
     const $indicator = useIndicator();
     const watchIndicator = () => {
       checkWifi().then(result => {
-        wifi_flag.value = result; // Присваиваем результат переменной wifi_flag.value
+        wifi_flag.value = result; 
       });
-      phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
+      phone_flag.value = $indicator.indicatorDataSet.getActivePhone();
     }
     onMounted(
       () => watchIndicator()

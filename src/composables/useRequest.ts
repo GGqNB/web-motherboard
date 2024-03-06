@@ -86,7 +86,7 @@ export const makeRequest = async <T>(
     return await request();
   } catch (e) {
     if (shouldWeCatch(error, o) && shouldWeAlert(e, o)) {
-      error(getErrorMessage(e) ?? o.defaultMessage);
+      // error(getErrorMessage(e) ?? o.defaultMessage);
       
     }
     throw e;

@@ -9,6 +9,7 @@ import { stringNumberWithoutSymbols }  from 'src/utils/helpers';
 import { useLoading } from 'src/composables/useLoading';
 import { useIndicator } from 'src/composables/useIndicator';
 import { useRoute } from "vue-router";
+import { useIndicatorStore } from 'src/stores/indicator.store';
 
 export function useList() {
   const $currentUser = useCurrentUser();
@@ -43,6 +44,7 @@ export function useList() {
           getMe();
           $indicator.indicatorDataSet.setActivePhone(true);
           notification.success('Успешное сохранение номера');
+          phone_flag.value = true;
           
           
         }
@@ -68,16 +70,14 @@ export function useList() {
     const response = await makeRequest(async () =>
       UserApi.me()); 
       if (response) {
-        notification.success('Я работаю,');
+        notification.success('Я работаю');
       }
     
   }
     
     const listWifi = ref<Network.NetworkBrief[]>([]);
-
-    const init = async (): Promise<void>  => {
+    const getWifi = async () =>{
       showLoading();
-      phone_flag.value = $indicator.indicatorDataSet.getActivePhone()
       isLoading.value = false;
       try {
         const response = await makeRequest(async () =>
@@ -91,7 +91,24 @@ export function useList() {
        hideLoading()
       }
     }
-  
+    const indicatorStore = useIndicatorStore();
+    const init = async (): Promise<void>  => {
+      try{
+        const response = await makeRequest(async () =>
+        UserApi.me()); 
+        if (response) {
+          phone_flag.value = true;
+        }
+      }catch{
+        phone_flag.value = false;
+        console.log('не сСработал метод')
+
+
+      }
+      getWifi();
+      
+    }
+    // phone.value = $currentUser.userDataSet.getPhone() 
     return {
       listWifi,
       init,

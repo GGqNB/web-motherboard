@@ -2,6 +2,8 @@ export namespace User {
   export interface UserBrief {
     phone: string,
     uuid: string,
+    first_name: string,
+    last_name: string,
   }
   
   export interface UserData {
