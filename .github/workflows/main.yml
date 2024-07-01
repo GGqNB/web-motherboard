@@ -12,11 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Set up GitHub token
-        uses: actions/setup-github-token@v2
+      - uses: actions/labeler@v2
         with:
-          scopes: repo 
-          token: ${{ secrets.TOKEN_WM }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Echo-token
         run: echo "${{ secrets.TOKEN_WM }}"
