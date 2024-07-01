@@ -11,7 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
+      - name: echo
+        run: echo 'work'
+        
+      - name: Build project
+        run: npm install
+      
       - name: Build project
         run: npm run build
 
@@ -21,4 +27,3 @@ jobs:
           cd release
           zip -r release.zip ../dist
           cd ..
-          echo 'rabotau'
