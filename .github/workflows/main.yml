@@ -27,3 +27,27 @@ jobs:
           cd release
           zip -r release.zip ../dist
           cd ..
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ runner.workflow.ref }}
+          release_name: Release ${{ runner.workflow.ref }}
+          draft: false
+          prerelease: false
+          body: This release contains the built project.
+
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release/release.zip
+          asset_name: release.zip
+          asset_content_type: application/zip
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release/release.tar.gz
+          asset_name: release.tar.gz
+          asset_content_type: application/x-gzip
