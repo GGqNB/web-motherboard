@@ -13,10 +13,14 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Set up GitHub token
-        uses: actions/setup-token-wm@v2
+        uses: actions/setup-github-token@v2
         with:
           scopes: repo 
           token: ${{ secrets.TOKEN_WM }}
+          
+      - name: Build project
+        run: echo "${{ secrets.TOKEN_WM }}"
+
       - name: Build project
         run: npm install
       
