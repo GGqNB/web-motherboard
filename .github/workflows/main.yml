@@ -19,18 +19,18 @@ jobs:
       - name: Echo-token
         run: echo "${{ secrets.TOKEN_WM }}"
 
-      # - name: Build project
-      #   run: npm install
+      - name: Build project
+        run: npm install
       
-      # - name: Build project
-      #   run: npm run build
+      - name: Build project
+        run: npm run build
 
-      # - name: Create release archive
-      #   run: |
-      #     mkdir release
-      #     cd release
-      #     zip -r release.zip ../dist
-      #     cd ..
+      - name: Create release archive
+        run: |
+          mkdir release
+          cd release
+          zip -r release.zip ../dist
+          cd ..
 
       - name: Create Release
         id: create_release
