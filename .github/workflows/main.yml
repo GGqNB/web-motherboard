@@ -40,7 +40,7 @@ jobs:
           draft: false
           prerelease: false
           body: This release contains the built project.
-          opts.auth: ${{ secrets.TOKEN_WM }}
+          repo-token: ${{ secrets.TOKEN_WM }}
 
       - name: Upload release assets
         uses: actions/upload-release-asset@v1
