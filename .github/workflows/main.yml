@@ -34,13 +34,15 @@ jobs:
 
       - name: Create GitHub release
         uses: actions/create-release@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ runner.workflow.ref }}
           release_name: Release ${{ runner.workflow.ref }}
           draft: false
           prerelease: false
           body: This release contains the built project.
-          repo-token: ${{ secrets.TOKEN_WM }}
+          
 
       - name: Upload release assets
         uses: actions/upload-release-asset@v1
