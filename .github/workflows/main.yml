@@ -15,16 +15,27 @@ jobs:
         run: npm install
       - name: Build project
         run: npm run build
+      # - name: Create zip archive
+      #   run: cd dist && zip -r ../dist.zip * 
+      # - name: test
+      #   run: ls -s
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: dist
+      #     path: dist.zip 
+          
+  release:
+    name: Create Release
+    permissions:
+      contents: write
+    needs:
+      - build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Create zip archive
         run: cd dist && zip -r ../dist.zip * 
-      - name: test
-        run: ls -s
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist.zip 
-          
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
