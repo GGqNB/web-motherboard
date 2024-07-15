@@ -16,30 +16,29 @@ jobs:
       - name: Build project
         run: npm run build
       - name: Create zip archive
-        run: zip -r dist.zip dist/*
+        run: cd dist && zip -r dist.zip * 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist.zip 
+          path: dist/dist.zip 
   release:
     name: Create Release
     permissions:
-     contents: write
+      contents: write
     needs:
       - build-and-release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: dist.zip
-        merge-multiple: true
-    - name: Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: test
-        # name: Release for ${{ runner.os }} - v${{ github.run_number }}
-        files: |
-          dist/*
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist.zip
+          merge-multiple: true
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test
+          files: |
+            dist.zip
