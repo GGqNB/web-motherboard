@@ -16,12 +16,14 @@ jobs:
       - name: Build project
         run: npm run build
       - name: Create zip archive
-        run: cd dist && zip -r dist.zip * 
+        run: cd dist && zip -r ../dist.zip * 
+      - name: test
+        run: ls -s
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist/dist.zip 
+          path: dist.zip 
   release:
     name: Create Release
     permissions:
