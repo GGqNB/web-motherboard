@@ -24,15 +24,7 @@ jobs:
         with:
           name: dist
           path: dist.zip 
-  release:
-    name: Create Release
-    permissions:
-      contents: write
-    needs:
-      - build-and-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+          
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
