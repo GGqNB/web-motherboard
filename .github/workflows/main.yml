@@ -22,13 +22,22 @@ jobs:
         with:
           name: dist
           path: dist.zip 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: Release ${{ runner.os }}-v${{ github.run_number }}
-          body: Release build for ${{ runner.os }}
-          draft: false  # Установите в true, чтобы сделать релиз черновиком
-          prerelease: false # Установите в true, чтобы сделать релиз предварительной версией
-          tag: v${{ github.run_number }} # Тег для релиза
-          files: |
-            dist.zip
+  release:
+    name: Create Release
+    permissions:
+     contents: write
+    needs:
+      - build-and-release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: dist
+        merge-multiple: true
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          dist/*
