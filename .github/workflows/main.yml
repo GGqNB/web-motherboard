@@ -40,9 +40,11 @@ jobs:
         run: npm run build
       - name: test
         run: ls -s
+      - name: Create tar.gz archive
+        run: cd dist && tar -czvf ../dist.tar.gz *
       - name: Create zip archive
         run: cd dist && zip -r ../dist.zip * 
-      - name: Download artifacts
+      - name: Download 
         uses: actions/download-artifact@v4
         with:
           path: dist.zip
@@ -53,3 +55,4 @@ jobs:
           tag_name: test
           files: |
             dist.zip
+            dist.tar.gz
