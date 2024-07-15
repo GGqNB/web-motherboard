@@ -33,6 +33,8 @@ jobs:
       - build-and-release
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        run: ls -s
       - uses: actions/checkout@v4
       - name: Create zip archive
         run: cd dist && zip -r ../dist.zip * 
