@@ -11,19 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      # - name: Install dependencies
-      #   run: npm install
-      # - name: Build project
-      #   run: npm run build
-      # - name: Create zip archive
-      #   run: cd dist && zip -r ../dist.zip * 
       - name: test
         run: ls -s
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dist
-      #     path: dist.zip 
+
           
   release:
     name: Create Release
@@ -53,6 +43,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: test
+          name:  ${{ runner.os }} - v${{ github.run_number }}
           files: |
             dist.zip
             dist.tar.gz
