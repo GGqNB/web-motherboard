@@ -17,4 +17,9 @@ export namespace Network {
 
   }
 
+  export interface NetworkConnections{
+    name: string,
+    type: string,
+  }
+
 }

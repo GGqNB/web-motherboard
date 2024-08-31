@@ -61,11 +61,17 @@ export function useList() {
         wifi_flag.value = true;
         $indicator.indicatorDataSet.setActiveWifi(true);
         notification.success('Успешное подключение');
+        await currentNetwork();
       }
       notification.error('Неправильный пароль');
     
   }
-  
+
+  const currentNetwork = async () => {
+    const response = await makeRequest(async () => NetworkApi.active());
+    $indicator.indicatorDataSet.setCurrentNetwork(response[0].name)
+  }
+
   const getMe = async () => {
     const response = await makeRequest(async () =>
       UserApi.me()); 

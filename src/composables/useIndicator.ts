@@ -13,13 +13,24 @@ export function useIndicator() {
     },
     setActiveWifi(val : boolean) {
       indicatorStore.setActiveWifi(val);
-     
+    },
+    setCurrentNetwork(val : string) {
+      indicatorStore.setCurrentNetwork(val);
+    },
+    setPastNetworks(val : string) {
+      indicatorStore.setPastNetworks(val);
     },
     getActivePhone() {
      return indicatorStore.watchActivePhone;
     },
     getActiveWifi() {
       return indicatorStore.watchActiveWifi;
+     },
+     getCurrentNetwork() {
+      return indicatorStore.watchCurrentNetwork;
+     },
+     getPastNetwork() {
+      return indicatorStore.watchPastNetworks;
      },
   };
 

@@ -19,11 +19,11 @@ export default class NetworkApi {
     return responseData;
   }
 
-  public static async active(): Promise<Array<Network.NetworkActiveBrief>> {
-    const responseData: Array<Network.NetworkActiveBrief> = await axios({
+  public static async active(): Promise<Array<Network.NetworkConnections>> {
+    const responseData: Array<Network.NetworkConnections> = await axios({
       ...NETWORK.ACTIVE
     })
-      .then((r): Array<Network.NetworkActiveBrief> => r.data);
+      .then((r): Array<Network.NetworkConnections> => r.data);
 
     return responseData;
   }

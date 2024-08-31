@@ -11,7 +11,7 @@ export const USER = {
   } as IEndpointData,
   ME: {
     method: 'GET',
-    url: `${userUrl}/profile`,
+    url: `${userUrl}/profile/`,
   } as IEndpointData,
   CREATE: {
     method: 'POST',
