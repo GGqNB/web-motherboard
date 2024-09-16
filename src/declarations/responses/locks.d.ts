@@ -1,14 +1,14 @@
 export namespace Locks {
   export interface LocksBrief {
-      name: string,
-      address: string,
-      sub_address: number,
-      id: number,
-      nfc_keys?: Array<NFCkeyBrief>,
-      lock_type?: LocksTypeBrief,
-      title : string,
-      open_time: number,
-    is_new: boolean,
+    name: string,
+    address: string,
+    sub_address: number,
+    id: number,
+    nfc_keys?: Array<NFCkeyBrief>,
+    lock_type?: LocksTypeBrief,
+    title : string,
+    open_time: number,
+    is_new?: boolean,
     close_time: number,
   }
 
@@ -20,7 +20,7 @@ export namespace Locks {
     title : string,
     open_time: number,
     close_time: number,
-    is_new: boolean,
+    is_new?: boolean,
   }
 
   //возможно bare

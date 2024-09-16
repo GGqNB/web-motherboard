@@ -8,7 +8,7 @@
         <s-select-backend
           v-model="lockData"
           option-label="title"
-          :option-object=true
+          :value-object="true"
           label="Выберите устройство"
           class="mt-base-25 "
           :getter="getLocks"
@@ -22,8 +22,8 @@
       </SSelect> -->
         <div v-if="lockData.id !== 0" class="mt-base-15">
         Сейчас время 1 составляет : {{ lockData.open_time / 10 }} сек
-        <div v-if="lockFetchData.lock_type_id == 2">
-          Сейчас время 2 составляет : {{ lockData.close_time }} сек
+        <div v-if="lockFetchData.lock_type_id !== 2">
+          Сейчас время 2 составляет : {{ lockData.close_time /10 }} сек
         </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
       </div>
       </div>
       <div class="home_wrapper">
-      <div class="flex mt-base-15" v-if="lockFetchData.lock_type_id == 2">
+      <div class="flex mt-base-15" v-if="lockFetchData.lock_type_id !== 2">
         <SInput label="Время 2" icon="home" :readonly="timeFlagDown" >
           <template v-slot:append>
           <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown" />

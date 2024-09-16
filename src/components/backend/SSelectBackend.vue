@@ -96,6 +96,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    valueObject: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const classesArray = ref([
@@ -175,7 +179,13 @@ export default defineComponent({
     loading.value = false;
   }
 };
-
+const onUpdate = (obj: OptionObject) => {
+      if (props.valueObject) {
+        emit('update:model-value', obj ? obj : null); // Отправка всего объекта
+      } else {
+        emit('update:model-value', obj ? obj[props.optionValue] : null); // Отправка только значения
+      }
+    };
 return {
       classes,
       options,
@@ -183,7 +193,7 @@ return {
       onScroll,
       loading,
       localModel,
-      onUpdate: (obj: OptionObject) => emit('update:model-value', obj ? obj[props.optionValue] : null),
+      onUpdate,
     }
   },
 })

@@ -27,7 +27,7 @@ export function useList() {
         name:'',
       }
       });
-      const lockFetchData = ref<Locks.LocksBare>({
+      const lockFetchData = ref({
         name: lockData.value.name,
         address: lockData.value.address,
         sub_address: lockData.value.sub_address,
@@ -55,8 +55,9 @@ export function useList() {
         if (response) {
           notification.success('Время успешно изменено');
           lockData.value.open_time = lockFetchData.value.open_time;
-          lockData.value.close_time = lockFetchData.value.close_time;
+          lockData.value.close_time = lockFetchData.value.close_time ;
           lockFetchData.value.open_time = lockFetchData.value.open_time / 10;
+          lockFetchData.value.close_time = lockFetchData.value.close_time / 10;
 
         }else 
         {
