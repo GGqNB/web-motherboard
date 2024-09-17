@@ -54,7 +54,7 @@ export function useList() {
           hideLoading();
           btnFlag.value = true;
           lockData.value.title = '';
-          newLock.value = (null);
+          // newLock.value = (null);
         }else 
         {
           hideLoading();
@@ -62,9 +62,9 @@ export function useList() {
       }else{
         hideLoading();
       }
-      bindLocks();
-      searchNewDevice();
-      refreshSystem();
+      await bindLocks();
+      await searchNewDevice();
+      await refreshSystem(); 
     };
     const foundFirstElement = ref(false);
     const shouldDisplayElement = (item) => {
@@ -91,46 +91,23 @@ export function useList() {
     
     const bindLocks = async () => {
       const responce = await makeRequest(async () =>
-      UserApi.bind_lock(newDevice.value.id)); 
+      UserApi.bind_lock(newLock.value.id)); 
       if (responce) {
         console.log(responce)
-        $notify.success('Устройства привязаны')
+        $notify.success('Устройство привязано')
       }else{
         $notify.error('Устройство не привязано')
       }
     }
 
     const refreshSystem = async () => {
-      const responce = await makeRequest(async () =>
-      SystemApi.get()); 
-      if (responce) {
-      }
+     await makeRequest(async () => SystemApi.get()); 
     }
     
     const newLock = ref<Locks.LocksBrief>();
     const filternewLockArray = (array : Locks.LocksBrief[]) => {
       return array.filter(item => item.title === '');
     };
-
-    // const init = async (): Promise<void>  => {
-    //   try {
-       
-    //     // showLoading();
-    //     const response = await makeRequest(async () =>
-    //      LocksApi.list());
-          
-    //     if (response) {
-    //       listLocks.value = response.items;
-    //       newLock.value = filternewLockArray(listLocks.value);
-    //       searchDevice();
-    //     } else{
-    //       hideLoading();
-            
-    //     }
-    //   } finally {
-    //     hideLoading();
-    //   }
-    // }
     
     const { filterParams, sanitizeQueryFilterParams, defaultFilterParams } = useServiceFilters();
     const { paginationParams, sanitizeQueryPagination, setPaginationFromData, defaultPaginator } =
@@ -169,7 +146,6 @@ const init = async () => {
   const queryParams = getQueryParams();
   setPaginationFromData(queryParams);
   await searchNewDevice();
-  console.log(listLocks.value)
 };
 
 const searchNewDevice = async () =>{

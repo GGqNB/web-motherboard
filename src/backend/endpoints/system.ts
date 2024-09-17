@@ -6,6 +6,6 @@ const systemUrl = `${API_SERVER}/system`;
 export const SYSTEM = {
   GET: {
     method: 'GET',
-    url: `${systemUrl}/restart/websocket/`,
+    url: `${systemUrl}/restart/websocket`,
   } as IEndpointData,
 };
