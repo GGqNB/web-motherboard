@@ -2,6 +2,9 @@
   max-width: 350px;
   margin: 0 auto;
 }
+.phone-button-container{
+  width: 100% !important;
+}
 .main_footer{
   height: 50px;
 }
@@ -38,4 +41,17 @@
     width: 150px;
     background-size: 200% 100%;
   }
+}
+
+.local-bind{
+  color: white;
+  background-color: orange;
+}
+
+.orange-info{
+  width: 15px;
+  margin-top: 2px;
+  height: 15px;
+  background-color: orange;
+  border-radius: 50px;
 }

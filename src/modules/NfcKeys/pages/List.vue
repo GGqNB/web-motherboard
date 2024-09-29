@@ -25,7 +25,11 @@
                 @update:modelValue="fetch"
                 class="mt-base-15 input--home"
             />
-        <SBtn label="Добавить FRID" width="base-xxxl" @click="visibleCreateDialog = true" class="mt-base-15"/>
+        <SBtn label="Добавить RFID" width="base-xxxl" @click="visibleCreateDialog = true" class="mt-base-15"/>
+        </div>
+        <div class="flex mt-base-15" >
+          <div class="orange-info"></div>
+          <span>&nbsp; Локальная связь</span>
         </div>
         <div class="mt-base-25">
             <q-table
@@ -41,7 +45,41 @@
                 :rows-per-page-label="TABLE_SETTINGS.ROWS_PER_PAGE_LABEL"
                 hide-bottom
             >
-                <template #body-cell-phone="props">
+            <template v-slot:body="props">
+                <q-tr :props="props" :class="props.row.phone.local ? 'local-bind' : ''">
+                    <q-td key="phone" :props="props" >
+                        {{ props.row.phone.phone }}
+                    </q-td>
+                    <q-td key="key" :props="props">
+                        {{ props.row.key  }}
+                    </q-td>
+                    <q-td key="action" :props="props">
+                      <q-btn variant="" icon="more_vert" dense flat>
+          <q-menu>
+            <q-list>
+              <q-item
+                v-close-popup
+                clickable
+                dense
+                @click = 'openSetting(props.row)'
+              >
+                <q-item-section>Изменить</q-item-section>
+              </q-item>
+              <q-item
+                v-close-popup
+                clickable
+                dense
+                @click="onViewConfirmationDialog(props.row)"
+              >
+                <q-item-section class="text-red-base-1">Удалить</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+                    </q-td>
+                  </q-tr>
+                  </template>
+                <!-- <template #body-cell-phone="props">
                     <q-td :props="props">
                         {{ props.value !== null ? props.value.phone :'Номер не привязан'  }}
                     </q-td>
@@ -71,7 +109,7 @@
           </q-menu>
         </q-btn>
       </q-td>
-    </template>
+    </template> -->
             </q-table>
             <div class="q-pa-lg flex flex-center">
                 <q-pagination
@@ -114,6 +152,7 @@ import NfcCreateDialog from '../components/NfcCreateDialog.vue'
 import {
     useList
 } from '../composables/useList';
+import { useDeviceSizes } from 'src/composables/useDeviceSizes';
 export default defineComponent({
     name: 'NFCPage',
     components: {
@@ -140,7 +179,7 @@ export default defineComponent({
             visibleUpload,
             goUpload,
         } = useList();
-
+        const { isMobile } = useDeviceSizes();
         const visibleCreateDialog = ref(false);
         const createRequest = (NewDataPromise) => {
           console.log(NewDataPromise);
@@ -186,6 +225,7 @@ export default defineComponent({
             visibleUpload,
             goUpload,
             API_SERVER,
+            isMobile
         };
     },
 });
