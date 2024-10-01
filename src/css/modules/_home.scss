@@ -45,7 +45,7 @@
 
 .local-bind{
   color: white;
-  background-color: orange;
+  background-color: rgb(243, 187, 84);
 }
 
 .orange-info{
@@ -53,5 +53,13 @@
   margin-top: 2px;
   height: 15px;
   background-color: orange;
+  border-radius: 50px;
+}
+
+.red-info{
+  width: 15px;
+  margin-top: 2px;
+  height: 15px;
+  background-color: rgb(235, 25, 10);
   border-radius: 50px;
 }

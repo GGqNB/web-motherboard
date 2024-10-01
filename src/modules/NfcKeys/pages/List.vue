@@ -31,6 +31,10 @@
           <div class="orange-info"></div>
           <span>&nbsp; Локальная связь</span>
         </div>
+        <div class="flex mt-base-15" >
+          <div class="red-info"></div>
+          <span>&nbsp; Номер локальный</span>
+        </div>
         <div class="mt-base-25">
             <q-table
                 class="s-table--wrapper bordered "
@@ -46,8 +50,8 @@
                 hide-bottom
             >
             <template v-slot:body="props">
-                <q-tr :props="props" :class="props.row.phone.local ? 'local-bind' : ''">
-                    <q-td key="phone" :props="props" >
+                <q-tr :props="props" :class="props.row.local ? 'local-bind' : ''">
+                    <q-td key="phone" :props="props" :class="props.row.phone.local ? 'text-red':''" class="fw-700">
                         {{ props.row.phone.phone }}
                     </q-td>
                     <q-td key="key" :props="props">
