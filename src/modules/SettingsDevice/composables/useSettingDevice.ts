@@ -47,7 +47,7 @@ export function useList() {
  
 
     const updateTimeLock = async () => {
-      if(Number(lockFetchData.value.open_time)< 26){
+      if(Number(lockFetchData.value.open_time)< 201){
       lockFetchData.value.open_time = Number(lockFetchData.value.open_time) * 10;
       lockFetchData.value.close_time = Number(lockFetchData.value.close_time) * 10;
       const response = await makeRequest(async () =>
