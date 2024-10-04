@@ -100,6 +100,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    searchFilter: {
+      type: String,
+      default: 'filter'
+    }
   },
   setup(props, { emit }) {
     const classesArray = ref([
@@ -140,7 +144,7 @@ export default defineComponent({
     search.value = value;
       loading.value = true;
       await props.getter({
-        filter: search.value,
+        [props.searchFilter]: search.value,
         page: '1',
         size: '20',
       }).then(

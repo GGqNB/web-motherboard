@@ -12,6 +12,7 @@
           label="Выберите устройство"
           class="mt-base-25 "
           :getter="getLocks"
+          search-filter="name_filter"
         />
         <!-- <SSelect 
         label="Выберите устройство" 
@@ -97,7 +98,8 @@ import SSelectBackend from 'src/components/backend/SSelectBackend.vue';
       updateTimeLock,
       lockData,
       getLocks,
-      test
+      test,
+      filterParams
       } = useList();
       
 
@@ -116,7 +118,8 @@ import SSelectBackend from 'src/components/backend/SSelectBackend.vue';
         timeFlagDown,
         lockData,
         getLocks,
-        test
+        test,
+        filterParams
       };
     },
   });

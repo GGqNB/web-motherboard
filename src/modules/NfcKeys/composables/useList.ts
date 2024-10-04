@@ -11,6 +11,7 @@ import NfcApi from 'src/backend/api/classes/NfcApiClass';
 import {useConfirmationDialog} from 'src/composables/useConfirmationDialog';
 import { API_SERVER } from 'src/constants/common';
 import { useNotifications } from 'src/composables/useNotifications';
+import { useSelectBackend } from 'src/composables/useSelectBackend';
 export function useList(){ 
 
  const users = ref([]);
@@ -36,6 +37,7 @@ export function useList(){
   sortable: true,
 },
 ];
+const { getLocks } = useSelectBackend();
 const visibleUpload = ref(false);
 const visibleDialog = ref(false);
 const list = ref<Nfc.NfcBrief[]>([]);
@@ -156,6 +158,7 @@ const goUpload = async (files) => {
     onViewConfirmationDialog,
     visibleUpload,
     goUpload,
+    getLocks
   };
 }
 

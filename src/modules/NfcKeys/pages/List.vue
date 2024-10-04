@@ -13,9 +13,18 @@
     />
       </div>
         <div>
-          
+          <s-select-backend
+          v-model="filterParams.lock_id_filter"
+          option-label="title"
+          option-value="id"
+          label="Выберите устройство"
+          class="mt-base-25 "
+          :getter="getLocks"
+          search-filter="name_filter"
+          @update:modelValue="fetch"
+        />
             <s-input
-            v-model="filterParams.filter"
+            v-model="filterParams.phone_filter"
                 debounce="600"
                 dense
                 placeholder="Поиск по номеру"
@@ -157,12 +166,14 @@ import {
     useList
 } from '../composables/useList';
 import { useDeviceSizes } from 'src/composables/useDeviceSizes';
+import SSelectBackend from 'src/components/backend/SSelectBackend.vue';
 export default defineComponent({
     name: 'NFCPage',
     components: {
         // SSelectBackend,
         NfcDialog,
         NfcCreateDialog,
+        SSelectBackend
     },
     setup() {
         const {
@@ -182,6 +193,7 @@ export default defineComponent({
             onViewConfirmationDialog,
             visibleUpload,
             goUpload,
+            getLocks
         } = useList();
         const { isMobile } = useDeviceSizes();
         const visibleCreateDialog = ref(false);
@@ -229,7 +241,8 @@ export default defineComponent({
             visibleUpload,
             goUpload,
             API_SERVER,
-            isMobile
+            isMobile,
+            getLocks
         };
     },
 });

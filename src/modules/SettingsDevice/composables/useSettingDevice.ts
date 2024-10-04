@@ -7,6 +7,7 @@ import { useNotifications } from 'src/composables/useNotifications';
 // import { useCurrentUser } from 'src/declarations/composables/useCurrentUser'; 
 import { useLoading } from 'src/composables/useLoader';
 import { useSelectBackend } from 'src/composables/useSelectBackend';
+import { useServiceFilters } from './useFilters';
 export function useList() {
 
     const { showLoading, hideLoading } = useLoading();
@@ -45,7 +46,7 @@ export function useList() {
     }, { deep: true });
 
  
-
+    const { filterParams } = useServiceFilters();
     const updateTimeLock = async () => {
       if(Number(lockFetchData.value.open_time)< 201){
       lockFetchData.value.open_time = Number(lockFetchData.value.open_time) * 10;
@@ -75,7 +76,8 @@ export function useList() {
       lockFetchData,
       updateTimeLock,
       getLocks,
-      test
+      test,
+      filterParams
 
     }
   }
