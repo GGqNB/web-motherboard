@@ -4,25 +4,28 @@
     <s-header :create-btn="true" title="RFID метки" label-btn="Добавить из Exel" @click="visibleUpload = !visibleUpload"/>
     <div class="home_wrapper">
       <div v-if="visibleUpload" class=mt-base-25> 
+        <s-select-backend
+                v-model="currentLockId"
+                option-label="title"
+                option-value="id"
+                label="Выберите устройство"
+                class="mt-base-25 mb-base-15"
+                :getter="getLocks"
+                no-data-label="Нет устройств"
+            />
       <q-uploader
       accept=".xlsx"
       :factory="goUpload"
-      multiple
+      :loading="false"
       :max-file-size="2 * 1024 * 1024"
       style="width: 350px"
     />
       </div>
-        <div>
-          <s-select-backend
-          v-model="filterParams.lock_id_filter"
-          option-label="title"
-          option-value="id"
-          label="Выберите устройство"
-          class="mt-base-25 "
-          :getter="getLocks"
-          search-filter="name_filter"
-          @update:modelValue="fetch"
-        />
+      <div v-if="visibleUpload">
+        <SBtn label="Вернуться назад" width="base-xxxl" @click="visibleUpload  = false" class="mt-base-15"/>
+      </div>
+        <div v-if="!visibleUpload">
+        
             <s-input
             v-model="filterParams.phone_filter"
                 debounce="600"
@@ -193,7 +196,8 @@ export default defineComponent({
             onViewConfirmationDialog,
             visibleUpload,
             goUpload,
-            getLocks
+            getLocks,
+            currentLockId
         } = useList();
         const { isMobile } = useDeviceSizes();
         const visibleCreateDialog = ref(false);
@@ -242,7 +246,8 @@ export default defineComponent({
             goUpload,
             API_SERVER,
             isMobile,
-            getLocks
+            getLocks,
+            currentLockId
         };
     },
 });

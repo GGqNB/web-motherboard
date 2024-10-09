@@ -118,16 +118,17 @@ const onViewConfirmationDialog = (rfid : Nfc.NfcBrief) => {
   });
 };
 
+const currentLockId = ref(0);
 const pushFile = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await makeRequest(async () => NfcApi.nfcUpload(formData)); 
-  if (response.success == true) {
+  const response = await makeRequest(async () => NfcApi.nfcUpload(formData, currentLockId.value)); 
+  if (response) { 
     $notify.success('Успешно доблены RFID')
     visibleUpload.value = false;
     clearParameters();
   }else{
-    $notify.error('Произошла ошибка')
+    return
   }
 }
 
@@ -158,7 +159,8 @@ const goUpload = async (files) => {
     onViewConfirmationDialog,
     visibleUpload,
     goUpload,
-    getLocks
+    getLocks,
+    currentLockId
   };
 }
 

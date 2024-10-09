@@ -30,8 +30,14 @@ export const NFC = {
       url: `${url}/nfc_keys/${id}`,
     };
   },
-  UPLOAD: {
-    method: 'POST',
-    url: `${url}/upload_from_file`,
-  } as IEndpointData,
+  // UPLOAD: {
+  //   method: 'POST',
+  //   url: `${url}/upload_from_file`,
+  // } as IEndpointData,
+  UPLOAD(lock_id: number): IEndpointData {
+    return {
+      method: 'POST',
+      url: `${url}/upload_from_file/${lock_id}`,
+    };
+  },
 };

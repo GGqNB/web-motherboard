@@ -30,9 +30,9 @@ export default class NfcApi {
     return responseData;
   }
 
-  public static async nfcUpload(data): Promise<{success : boolean}> {
+  public static async nfcUpload(data, lock_id: number): Promise<{success : boolean}> {
     const responseData: {success : boolean} = await axios({
-      ...NFC.UPLOAD,
+      ...NFC.UPLOAD(lock_id),
       data,
     })
       .then((r): { success : boolean } => r.data);

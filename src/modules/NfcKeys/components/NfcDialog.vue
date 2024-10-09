@@ -1,7 +1,14 @@
 <template>
     <s-dialog 
+          v-if="bindData"
           :title = 'titleDialog'
           >
+          <div>
+            Телефон - {{ bindData.phone.phone }}
+          </div>
+          <div>
+            Метка - {{ bindData.key }}
+          </div>
          <div class="home_wrapper" v-if="selectFlag">
             <s-select-backend
                 v-model="formData.phone_id"
@@ -20,17 +27,18 @@
                 class="mt-base-15"
             />
 
-            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15"/>
+            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15" :class="isMobile ? 'phone-button-container':''"/>
          </div>
           </s-dialog>
     </template>
     <script lang="ts">;
 import NfcApi from 'src/backend/api/classes/NfcApiClass';
 import { Nfc } from 'src/declarations/responses/nfc';
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watch } from 'vue';
 import SSelectBackend from 'src/components/backend/SSelectBackend.vue';
 import { useSelectBackend } from 'src/composables/useSelectBackend';
 import { makeRequest } from 'src/composables/useRequest';
+import { useDeviceSizes } from 'src/composables/useDeviceSizes';
     
     export default defineComponent({
     name: 'DialogNfc',
@@ -54,6 +62,7 @@ import { makeRequest } from 'src/composables/useRequest';
         // key: props.rfidData ? props.rfidData.key : '',
         // phone_id: props.rfidData ? props.rfidData.phone_id : 0
       }); 
+      
       const changeRfid = async (frid_id : number) => {
         const response = await makeRequest(async () =>
          NfcApi.nfcUpdate(formData.value, frid_id));
@@ -67,8 +76,16 @@ import { makeRequest } from 'src/composables/useRequest';
         return props.rfidData.phone.phone
       }
     }
+    const bindData = ref<Nfc.NfcBrief>()
     const selectFlag = ref(props?.rfidData?.phone?.phone === null ? false : true);
       // onMounted (() => init())
+      watch(() => props.rfidData, (newVal) => {
+            bindData.value = newVal
+            })
+
+            const {
+            isMobile
+        } = useDeviceSizes();
     return {
       titleDialog: 'Rfid изменение',
       props,
@@ -78,6 +95,8 @@ import { makeRequest } from 'src/composables/useRequest';
       changeRfid,
       currentPhone,
       labelSelect,
+      bindData,
+      isMobile
       // rfidCurrent,
     };
       },

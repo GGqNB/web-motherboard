@@ -16,6 +16,7 @@ export namespace Nfc {
     key: string,
     is_master: boolean,
     phone_id: number,
+    lock_ids: Array<number>
   }
 
   export interface NfcAnyBare {

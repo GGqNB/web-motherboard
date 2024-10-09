@@ -58,6 +58,40 @@
                   NotEmpty(),
                 ]"
             />
+            <s-select-backend-multiple
+                v-model="currentLocks"
+                option-label="title"
+                option-value="id"
+                label="Выберите замки"
+                class="mt-base-15 "
+                :getter="getLocks"
+                search-filter="name_filter"
+                no-data-label="Такого номера нет, можете его создать"
+                :rules="[
+                  NotEmpty(),
+                ]"
+            />
+            <div v-if=currentLocks.length class="mt-base-25">
+                Выбраны замки:
+                <div
+                    v-for="locks in currentLocks"
+                    :key="locks.id"
+                    class="selected-groups-dialogs flex justify-between"
+                >
+                    <div class="home_wrapper"> {{ locks.title }}
+                    </div>
+                    <div>
+                        <q-btn
+                            color="red"
+                            flat
+                            class="сlose-btn-doc"
+                            icon="close"
+                            @click="removeLock(locks.id)"
+                        >
+                        </q-btn>
+                    </div>
+                </div>
+            </div>
                 <SBtn
                     label="Добавить"
                     width="base-xxxl"
@@ -115,10 +149,12 @@ import {
     useServiceFilters
 } from '../composables/useFilters';
 import { useDeviceSizes } from 'src/composables/useDeviceSizes';
+import SSelectBackendMultiple from 'src/components/backend/SSelectBackendMultiple2.vue';
 export default defineComponent({
     name: 'DialogCreateNfc',
     components: {
         SSelectBackend,
+        SSelectBackendMultiple
     },
     props: {
         createRow: Function
@@ -129,14 +165,17 @@ export default defineComponent({
             ValidMobilePhone
         } = useValidation();
         const {
-            getPhones
+            getPhones,
+            getLocks
         } = useSelectBackend();
         // const rfidCurrent = ref<Nfc.NfcBrief>()
         const formData = ref < Nfc.NfcBare > ({
             is_master: false,
             key: '',
             phone_id: null,
+            lock_ids: []
         });
+        const currentLocks = ref([]);
         const openPhoneAdd = () => {
             console.log('ОК')
         }
@@ -154,11 +193,15 @@ export default defineComponent({
                 return;
             }
             formData.value.key = '0x' + formData.value.key
+            currentLocks.value.map((lock) => formData.value.lock_ids.push(lock.id));
             const response = await makeRequest(() => NfcApi.nfcCreate(formData.value));
             if (response) {
                 formData.value.key = '';
                 formData.value.phone_id = null;
-                formData.value.is_master = andClose;
+                formData.value.is_master = false;
+                formData.value.lock_ids =  [];
+                currentLocks.value = [];
+                $notify.success('Все добавлено');
                 return response
             };
 
@@ -168,7 +211,9 @@ export default defineComponent({
         const phoneData = ref({
             phone: '',
         })
-
+        const removeLock = (id: number) => {
+            currentLocks.value = currentLocks.value.filter(locks => locks.id !== id);
+        };
         const createPhone = async () => {
             const isValid = await formPhone.value ?.validate();
             if (!isValid) {
@@ -181,6 +226,7 @@ export default defineComponent({
                 $notify.success('Номер добавлен для выбора')
             }
         }
+        
         return {
             titleDialog: 'Rfid изменение',
             props,
@@ -195,7 +241,10 @@ export default defineComponent({
             formPhone,
             createPhone,
             ValidMobilePhone,
-            isMobile
+            isMobile,
+            getLocks,
+            currentLocks,
+            removeLock
             // fetch
 
             // rfidCurrent,
