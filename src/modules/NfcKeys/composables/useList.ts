@@ -30,6 +30,13 @@ export function useList(){
     sortable: true,
 },
 {
+  name: 'comment',
+  label: 'Комментарий',
+  field: 'comment',
+  align: 'center',
+  sortable: true,
+},
+{
   name: 'action',
   label: '',
   field: 'action',

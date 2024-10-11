@@ -1,5 +1,5 @@
 <template>
-<s-dialog :title='titleDialog'>
+<!-- <s-dialog :title='titleDialog'> -->
     <div class='home_wrapper' v-if="visibilyNewPhone">
         <div>Добавление нового телефона в систему: </div>
         <q-form ref="formPhone">
@@ -92,6 +92,13 @@
                     </div>
                 </div>
             </div>
+            <s-input
+                debounce="600"
+                dense
+                placeholder="Оставьте комментарий"
+                clearable
+                class="mt-base-15 "
+            />
                 <SBtn
                     label="Добавить"
                     width="base-xxxl"
@@ -99,18 +106,18 @@
                     class="mt-base-15"
                     :class="isMobile ? 'phone-button-container':''"
                 />
-                <SBtn
+                <!-- <SBtn
                     label="Добавить и закрыть"
                     width="base-xxxl"
                     @click="props.createRow(onSubmit(true))"
                     class="mt-base-15 "
                     :class="isMobile ? 'phone-button-container':''"
 
-                />
+                /> -->
 
         </div>
     </q-form>
-</s-dialog>
+<!-- </s-dialog> -->
 </template>
 
     

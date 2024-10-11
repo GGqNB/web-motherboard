@@ -24,7 +24,7 @@
       <div v-if="visibleUpload">
         <SBtn label="Вернуться назад" width="base-xxxl" @click="visibleUpload  = false" class="mt-base-15"/>
       </div>
-        <div v-if="!visibleUpload">
+        <div v-if="!visibleUpload && !visibleCreateDialog">
         
             <s-input
             v-model="filterParams.phone_filter"
@@ -37,8 +37,10 @@
                 @update:modelValue="fetch"
                 class="mt-base-15 input--home"
             />
-        <SBtn label="Добавить RFID" width="base-xxxl" @click="visibleCreateDialog = true" class="mt-base-15"/>
-        </div>
+          </div>
+        <SBtn v-if='!visibleUpload' :label="visibleCreateDialog ? 'Вернуться':'Добавить RFID'" width="base-xxxl" @click="visibleCreateDialog = !visibleCreateDialog" class="mt-base-15"/>
+        <nfc-create-dialog v-if="visibleCreateDialog" :create-row="createRequest"/>
+
         <div class="flex mt-base-15" >
           <div class="orange-info"></div>
           <span>&nbsp; Локальная связь</span>
@@ -67,6 +69,9 @@
                         {{ props.row.phone.phone }}
                     </q-td>
                     <q-td key="key" :props="props">
+                        {{ props.row.key  }}
+                    </q-td>
+                    <q-td key="comment" :props="props">
                         {{ props.row.key  }}
                     </q-td>
                     <q-td key="action" :props="props">
@@ -138,7 +143,6 @@
                 />
             </div>
             <nfc-dialog v-model="visibleDialog" :rfid-data="rfidCurrent"/>
-            <nfc-create-dialog v-model="visibleCreateDialog" :create-row="createRequest"/>
         </div>
     </div>
 </s-page>
@@ -205,15 +209,11 @@ export default defineComponent({
           console.log(NewDataPromise);
           NewDataPromise.then((NewRfid) => {
           if(NewRfid == undefined){
-            visibleCreateDialog.value = true;
+            // visibleCreateDialog.value = true;
+            return
           }else{
               // console.log(NewService);
               list.value.unshift(NewRfid);
-              if(!NewRfid.is_master){
-                visibleCreateDialog.value = false;
-              }else{
-                visibleCreateDialog.value = true;
-              }
             }
           }).catch((error) => {
             console.error('Error while processing NewDataPromise:', error);
