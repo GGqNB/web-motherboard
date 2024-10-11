@@ -29,13 +29,13 @@ export function useList(){
     align: 'center',
     sortable: true,
 },
-{
-  name: 'comment',
-  label: 'Комментарий',
-  field: 'comment',
-  align: 'center',
-  sortable: true,
-},
+// {
+//   name: 'comment',
+//   label: 'Комментарий',
+//   field: 'comment',
+//   align: 'center',
+//   sortable: true,
+// },
 {
   name: 'action',
   label: '',

@@ -71,9 +71,9 @@
                     <q-td key="key" :props="props">
                         {{ props.row.key  }}
                     </q-td>
-                    <q-td key="comment" :props="props">
+                    <!-- <q-td key="comment" :props="props">
                         {{ props.row.key  }}
-                    </q-td>
+                    </q-td> -->
                     <q-td key="action" :props="props">
                       <q-btn variant="" icon="more_vert" dense flat>
           <q-menu>
