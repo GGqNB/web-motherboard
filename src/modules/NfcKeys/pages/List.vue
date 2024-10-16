@@ -37,6 +37,17 @@
                 @update:modelValue="fetch"
                 class="mt-base-15 input--home"
             />
+            <s-select-backend
+                v-model="filterParams.lock_id_filter"
+                option-label="title"
+                option-value="id"
+                label="Поиск по устройству"
+                class="mt-base-15 "
+                :getter="getLocks"
+                no-data-label="Нет устройств"
+                @update:modelValue="fetch"
+
+            />
           </div>
         <SBtn v-if='!visibleUpload' :label="visibleCreateDialog ? 'Вернуться':'Добавить RFID'" width="base-xxxl" @click="visibleCreateDialog = !visibleCreateDialog" class="mt-base-15"/>
         <nfc-create-dialog v-if="visibleCreateDialog" :create-row="createRequest"/>
