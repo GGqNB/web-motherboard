@@ -9,7 +9,7 @@
                 prefix="+7"
                 maxlength="10"
                 dense
-                placeholder="Введите метку"
+                placeholder="Введите номер телефона"
                 clearable
                 class="mt-base-10"
                 unmasked-value
@@ -31,12 +31,25 @@
     </div>
     <q-form ref="form">
         <div class="home_wrapper">
+            <s-select-backend-multiple
+                v-model="currentLocks"
+                option-label="title"
+                option-value="id"
+                label="Выберите преграждающее устройство"
+                class="mt-base-25 "
+                :getter="getLocks"
+                search-filter="name_filter"
+                no-data-label="Такого номера нет, можете его создать"
+                :rules="[
+                  NotEmpty(),
+                ]"
+            />
             <s-select-backend
                 v-model="formData.phone_id"
                 option-label="phone"
                 option-value="id"
                 label="Выберите номер"
-                class="mt-base-25 "
+                class="mt-base-15 "
                 prefix='+7'
                 :getter="getPhones"
                 @add="visibilyNewPhone = !visibilyNewPhone"
@@ -49,25 +62,13 @@
                 v-model="formData.key"
                 type="text"
                 prefix="0x"
-                maxlength="14"
+                maxlength="8"
                 dense
                 placeholder="Введите метку"
                 clearable
                 class="mt-base-15"
                 :rules="[
-                  NotEmpty(),
-                ]"
-            />
-            <s-select-backend-multiple
-                v-model="currentLocks"
-                option-label="title"
-                option-value="id"
-                label="Выберите замки"
-                class="mt-base-15 "
-                :getter="getLocks"
-                search-filter="name_filter"
-                no-data-label="Такого номера нет, можете его создать"
-                :rules="[
+                  MinLength(6),
                   NotEmpty(),
                 ]"
             />
@@ -98,6 +99,7 @@
                 placeholder="Оставьте комментарий"
                 clearable
                 class="mt-base-15 "
+                v-model="formData.comment"
             />
                 <SBtn
                     label="Добавить"
@@ -169,6 +171,7 @@ export default defineComponent({
     setup(props) {
         const {
             NotEmpty,
+            MinLength,
             ValidMobilePhone
         } = useValidation();
         const {
@@ -180,7 +183,8 @@ export default defineComponent({
             is_master: false,
             key: '',
             phone_id: null,
-            lock_ids: []
+            lock_ids: [],
+            comment: '',
         });
         const currentLocks = ref([]);
         const openPhoneAdd = () => {
@@ -199,7 +203,11 @@ export default defineComponent({
                 $notify.warning('Необходимо заполнить обязательные поля');
                 return;
             }
+            if (formData.value.key.length < 8) {
+                formData.value.key = formData.value.key.padEnd(8, '0'); // Добавляем точки в конец до 8 символов
+            }
             formData.value.key = '0x' + formData.value.key
+            
             currentLocks.value.map((lock) => formData.value.lock_ids.push(lock.id));
             const response = await makeRequest(() => NfcApi.nfcCreate(formData.value));
             if (response) {
@@ -207,6 +215,7 @@ export default defineComponent({
                 formData.value.phone_id = null;
                 formData.value.is_master = false;
                 formData.value.lock_ids =  [];
+                formData.value.comment =  '';
                 currentLocks.value = [];
                 $notify.success('Все добавлено');
                 return response
@@ -251,7 +260,8 @@ export default defineComponent({
             isMobile,
             getLocks,
             currentLocks,
-            removeLock
+            removeLock,
+            MinLength
             // fetch
 
             // rfidCurrent,

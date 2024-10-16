@@ -5,6 +5,7 @@
     outlined
     hide-bottom-space
     clear-icon="delete"
+    :maxlength="maxLength"
   >
     <template #default>
       <slot></slot>
@@ -31,6 +32,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    maxLength: {
+      type: String,
+      required: false,
+      default: '255',
     },
   },
   expose: ['validate'],

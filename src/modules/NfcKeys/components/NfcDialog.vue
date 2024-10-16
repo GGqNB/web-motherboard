@@ -9,14 +9,18 @@
           <div>
             Метка - {{ bindData.key }}
           </div>
+          <div>
+            Комментарий  - {{ bindData.comment ? bindData.comment : 'Отсутствует' }}
+          </div>
          <div class="home_wrapper" v-if="selectFlag">
             <s-select-backend
                 v-model="formData.phone_id"
                 option-label="phone"
                 option-value="id"
-                :label="currentPhone == null ? 'asd': 'qwe'"
+                :label="currentPhone == null ? '': ''"
                 class="mt-base-25 "
                 :getter="getPhones"
+                
                 />
                 <!-- @update:modelValue="rfidCurrent.phone.phone = ''" -->
             <s-input
@@ -25,9 +29,10 @@
                 placeholder="Поиск по номеру"
                 clearable
                 class="mt-base-15"
+                disabled
             />
 
-            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15" :class="isMobile ? 'phone-button-container':''"/>
+            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15" :class="isMobile ? 'phone-button-container':''" :disabled="true"/>
          </div>
           </s-dialog>
     </template>
@@ -87,7 +92,7 @@ import { useDeviceSizes } from 'src/composables/useDeviceSizes';
             isMobile
         } = useDeviceSizes();
     return {
-      titleDialog: 'Rfid изменение',
+      titleDialog: 'Rfid просмотр',
       props,
       formData,
       getPhones,

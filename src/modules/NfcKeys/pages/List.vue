@@ -41,14 +41,6 @@
         <SBtn v-if='!visibleUpload' :label="visibleCreateDialog ? 'Вернуться':'Добавить RFID'" width="base-xxxl" @click="visibleCreateDialog = !visibleCreateDialog" class="mt-base-15"/>
         <nfc-create-dialog v-if="visibleCreateDialog" :create-row="createRequest"/>
 
-        <div class="flex mt-base-15" >
-          <div class="orange-info"></div>
-          <span>&nbsp; Локальная связь</span>
-        </div>
-        <div class="flex mt-base-15" >
-          <div class="red-info"></div>
-          <span>&nbsp; Номер локальный</span>
-        </div>
         <div class="mt-base-25">
             <q-table
                 class="s-table--wrapper bordered "
@@ -64,42 +56,56 @@
                 hide-bottom
             >
             <template v-slot:body="props">
-                <q-tr :props="props" :class="props.row.local ? 'local-bind' : ''">
-                    <q-td key="phone" :props="props" :class="props.row.phone.local ? 'text-red':''" class="fw-700">
-                        {{ props.row.phone.phone }}
-                    </q-td>
-                    <q-td key="key" :props="props">
-                        {{ props.row.key  }}
-                    </q-td>
-                    <!-- <q-td key="comment" :props="props">
-                        {{ props.row.key  }}
-                    </q-td> -->
-                    <q-td key="action" :props="props">
-                      <q-btn variant="" icon="more_vert" dense flat>
-          <q-menu>
-            <q-list>
-              <q-item
-                v-close-popup
-                clickable
-                dense
-                @click = 'openSetting(props.row)'
-              >
-                <q-item-section>Изменить</q-item-section>
-              </q-item>
-              <q-item
-                v-close-popup
-                clickable
-                dense
-                @click="onViewConfirmationDialog(props.row)"
-              >
-                <q-item-section class="text-red-base-1">Удалить</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
-                    </q-td>
-                  </q-tr>
-                  </template>
+  <q-tr :props="props" @click="visibleTooltip = props.row.id">
+
+      <q-tooltip v-if="(props.row.local || props.row.phone.local) " anchor="top middle" self="bottom middle">
+         <div v-if="props.row.local" class="flex">
+          <div class="orange-info "></div> 
+          <div>&nbsp; Доступ выдан на локальном сервере</div>
+         </div>
+         <div v-if="props.row.phone.local" class="mt-base-10 flex">
+          <div class="red-info"></div>
+          <div>
+            &nbsp; Пользователь не зарегистрирован<br> на stown.ooo
+          </div>
+         </div>
+        </q-tooltip>
+      <q-td key="phone" :props="props"  class="fw-700">
+        
+        <span>{{ props.row.phone.phone }}</span>
+      </q-td>
+      <q-td key="key" :props="props">
+        {{ props.row.key  }}
+    </q-td>
+    <!-- <q-td key="comment" :props="props">
+        {{ props.row.key  }}
+    </q-td> -->
+    <q-td key="action" :props="props">
+      <q-btn variant="" icon="more_vert" dense flat>
+        <q-menu>
+          <q-list>
+            <q-item
+              v-close-popup
+              clickable
+              dense
+              @click='openSetting(props.row)'
+            >
+              <q-item-section>Изменить</q-item-section>
+            </q-item>
+            <q-item
+              v-close-popup
+              clickable
+              dense
+              @click="onViewConfirmationDialog(props.row)"
+            >
+              <q-item-section class="text-red-base-1">Удалить</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </q-td>
+  </q-tr>
+</template>
                 <!-- <template #body-cell-phone="props">
                     <q-td :props="props">
                         {{ props.value !== null ? props.value.phone :'Номер не привязан'  }}
@@ -219,6 +225,7 @@ export default defineComponent({
             console.error('Error while processing NewDataPromise:', error);
           });
         }
+        const visibleTooltip = ref(null);
         const {
             longTouch,
             endLongTouch
@@ -247,7 +254,8 @@ export default defineComponent({
             API_SERVER,
             isMobile,
             getLocks,
-            currentLockId
+            currentLockId,
+            visibleTooltip
         };
     },
 });

@@ -6,7 +6,8 @@ export namespace Nfc {
       is_master: false,
       phone_id: number,
       id: number,
-      locks: Locks.LockInNfc
+      locks: Locks.LockInNfc,
+      comment : string,
       phone: null | {
         phone: string
       }
@@ -16,7 +17,8 @@ export namespace Nfc {
     key: string,
     is_master: boolean,
     phone_id: number,
-    lock_ids: Array<number>
+    lock_ids: Array<number>,
+    comment : string,
   }
 
   export interface NfcAnyBare {

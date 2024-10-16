@@ -132,7 +132,7 @@ export default defineComponent({
         await props.getter({
           [props.searchFilter]: search.value,
           page: '1',
-          size: '10',
+          size: '20',
         }).then(
           (r: any) => {
             options.value = r.items;
