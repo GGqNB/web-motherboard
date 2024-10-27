@@ -26,17 +26,6 @@
       </div>
         <div v-if="!visibleUpload && !visibleCreateDialog">
         
-            <s-input
-            v-model="filterParams.phone_filter"
-                debounce="600"
-                dense
-                placeholder="Поиск по номеру"
-                prefix="+7"
-                unmasked-value
-                clearable
-                @update:modelValue="fetch"
-                class="mt-base-15 input--home"
-            />
             <s-select-backend
                 v-model="filterParams.lock_id_filter"
                 option-label="title"
@@ -47,6 +36,18 @@
                 no-data-label="Нет устройств"
                 @update:modelValue="fetch"
 
+            />
+            <s-input
+            v-model="filterParams.phone_filter"
+                debounce="600"
+                dense
+                placeholder="Поиск по номеру"
+                prefix="+7"
+                unmasked-value
+                clearable
+                @update:modelValue="fetch"
+                class="mt-base-15 input--home"
+                :disable="filterParams.lock_id_filter == null"
             />
           </div>
         <SBtn v-if='!visibleUpload' :label="visibleCreateDialog ? 'Вернуться':'Добавить RFID'" width="base-xxxl" @click="visibleCreateDialog = !visibleCreateDialog" class="mt-base-15"/>

@@ -82,7 +82,7 @@ const { getQueryParams, setQueryParams } = useQueryString(combinedParametersSani
     await fetch();
   };
 const init = async () => {
-  await fetch();
+  // await fetch();
   const queryParams = getQueryParams();
   setPaginationFromData(queryParams);
   console.log(paginationParams.value)
