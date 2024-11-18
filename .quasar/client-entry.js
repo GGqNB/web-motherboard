@@ -154,7 +154,9 @@ createQuasarApp(createApp, quasarUserOptions)
       
       import('boot/axios'),
       
-      import('boot/components')
+      import('boot/components'),
+      
+      import('boot/route-middleware')
       
     ]).then(bootFiles => {
       const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')

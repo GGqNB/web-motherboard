@@ -18,11 +18,6 @@ MIXINS
 // @import "./core/_typography.scss";
 // @import "./core/_variables-border.scss";
 
-/**
-  SHARED
-*/
-@import './shared/index.scss';
-
 
 /**
   COMPONENTS
@@ -34,7 +29,7 @@ MIXINS
   MODULES
 */
 @import "./modules/index.scss";
-// @import "./modules/_auth.scss";
+@import "./layouts/_auth.scss";
 @import "./modules/_home.scss";
 // @import 'src/css/modules/_login.scss';
 // @import 'src/css/modules/_roles.scss';

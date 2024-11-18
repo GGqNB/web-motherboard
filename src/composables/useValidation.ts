@@ -160,7 +160,7 @@ const GreaterThenOrEqual = (
  */
 const MinLength = (
   min: number,
-  message = 'Длина значения должна быть больше или равна {min}',
+  message = 'Длина должна быть больше или равна {min}',
   strict = false
 ): ValidationRule => {
   const formattedMessage = formatValidationMessage(message, { min });
@@ -186,7 +186,7 @@ const MinLength = (
  */
 const MaxLength = (
   max: number,
-  message = 'Длина значения должна быть меньше или равна {max}',
+  message = 'Длина должна быть меньше или равна {max}',
   strict = false
 ): ValidationRule => {
   const formattedMessage = formatValidationMessage(message, { max });

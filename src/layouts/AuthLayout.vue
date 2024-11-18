@@ -16,10 +16,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { routerInitialPath } from 'AdminDir/router/router.constants';
+import { routerInitialPath } from 'src/router/router.constants';
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: 'AuthLayout',
 
   components: {},
 

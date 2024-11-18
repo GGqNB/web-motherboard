@@ -104,7 +104,7 @@
                 <SBtn
                     label="Добавить"
                     width="base-xxxl"
-                    @click="props.createRow(onSubmit(false))"
+                    @click="props.createRow(onSubmit())"
                     class="mt-base-15"
                     :class="isMobile ? 'phone-button-container':''"
                 />
@@ -197,7 +197,7 @@ export default defineComponent({
         const $notify = useNotifications();
         const form = ref < QForm > ();
         const formPhone = ref < QForm > ();
-        const onSubmit = async (andClose: boolean) => {
+        const onSubmit = async () => {
             const isValid = await form.value ?.validate();
             if (!isValid) {
                 $notify.warning('Необходимо заполнить обязательные поля');

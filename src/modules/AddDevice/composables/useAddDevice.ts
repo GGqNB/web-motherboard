@@ -21,6 +21,7 @@ export function useList() {
     const $notify = useNotifications();
     const btnFlag = ref(true);
     const $route = useRoute();
+    const visibleDialog = ref(false);
     const listLocks = ref<Locks.LocksBrief[]>([]);
     const lockData = ref<Locks.LocksBare>({
       name: '',
@@ -31,12 +32,14 @@ export function useList() {
       open_time: 0,
       close_time: 0,
       is_new: true,
+      geo_address: '',
     });
     const uuid = ref<User.UserBare>({
       uuid: '',
     });
-    const createLock = async () => {
+    const createLock = async (geoData : string) => {
       showLoading();
+      lockData.value.geo_address = geoData;
       lockData.value.address = newLock.value.address;
       lockData.value.name = newLock.value.name;
       lockData.value.lock_type_id = newLock.value.lock_type.id;
@@ -57,14 +60,17 @@ export function useList() {
           // newLock.value = (null);
         }else 
         {
+          visibleDialog.value = false;
           hideLoading();
         }
       }else{
+        visibleDialog.value = false;
         hideLoading();
       }
+      visibleDialog.value = false;
       await bindLocks();
       await searchNewDevice();
-      await refreshSystem(); 
+      await refreshSystem();
     };
     const foundFirstElement = ref(false);
     const shouldDisplayElement = (item) => {
@@ -161,6 +167,7 @@ const searchNewDevice = async () =>{
     btnFlag.value = true;
   }
 }
+
     return {
       listLocks,
       init,
@@ -175,7 +182,8 @@ const searchNewDevice = async () =>{
       $route,
       paginationParams,
       fetch,
-      searchNewDevice
+      searchNewDevice,
+      visibleDialog
 
     }
   }

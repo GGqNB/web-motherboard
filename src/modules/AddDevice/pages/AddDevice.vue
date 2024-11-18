@@ -61,10 +61,12 @@
             class="mt-base-15"
             v-model="lockData.title"
         />
-        <SBtn label="Добавить" :disable="btnFlag" width="base-xxxl" @click=createLock() class="mt-base-15" />
+        <SBtn label="Добавить" :disable="btnFlag" width="base-xxxl" @click="visibleDialog = !visibleDialog" class="mt-base-15" />
+        <!-- <SBtn label="Modal" width="base-xxxl" @click="visibleDialog = !visibleDialog" class="mt-base-15" /> -->
         <SBtn label="Обновить" :disable="!btnFlag" width="base-xxxl" @click=searchNewDevice() class="mt-base-15"/>
     </div>
     <div class="main_footer">
+        <add-device-dialog :show="visibleDialog" @send-lock="createLock"/>
     </div>
 </s-page>
 </template>
@@ -79,6 +81,7 @@ import {
 import {
     useList
 } from '../composables/useAddDevice';
+import  AddDeviceDialog from '../components/AddDeviceDialog.vue';
 import {
     useMeta
 } from 'quasar';
@@ -87,6 +90,7 @@ export default defineComponent({
     name: 'AddDevicePage',
     components: {
         // SInput
+        AddDeviceDialog
     },
     setup() {
         const {
@@ -104,11 +108,10 @@ export default defineComponent({
             paginationParams,
             fetch,
             searchNewDevice,
-            
+            visibleDialog
         } = useList();
-        // onMounted(() => useMeta($route.meta));
+
         onMounted(() => init());
-        // eslint-disable-next-line no-return-assign
 
         return {
             listLocks,
@@ -123,7 +126,8 @@ export default defineComponent({
             foundFirstElement,
             paginationParams,
             fetch,
-            searchNewDevice
+            searchNewDevice,
+            visibleDialog
         };
     },
 });

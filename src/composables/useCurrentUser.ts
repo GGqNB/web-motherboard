@@ -3,19 +3,18 @@
 import { computed, Ref, ref } from 'vue';
 import { useUserStore } from 'stores/user.store';
 import { UserInfo } from 'AdminDir/declarations/access';
+import { useLocalAuthStore } from 'src/stores/auth.store';
+import { User } from 'src/declarations/responses/user';
 
 export function useCurrentUser() {
   const userStore = useUserStore();
+  const authStore = useLocalAuthStore();
 
-  // const $currentUser = computed(() => store.getters['user/user']);
+  const accessToken = computed(() => authStore.getToken);
 
-//   const accessToken = computed(() => authStore.getToken);
+  const isAuthenticated = computed(() => authStore.isAuthenticated);
 
-//   const refreshToken = computed(() => authStore.getRefreshToken);
-
-//   const isAuthenticated = computed(() => authStore.isAuthenticated);
-
-  const userDataSet = {
+  const $userDataSet = {
     // setToken(accessToken: string | null, refreshToken: string | null) {
     //   authStore.setToken(accessToken);
     //   authStore.setRefreshToken(refreshToken);
@@ -33,9 +32,18 @@ export function useCurrentUser() {
     getPhone() {
       return userStore.watchPhone;
      },
+    setToken(accessToken: string | null) {
+      authStore.setAccessToken(accessToken);
+    },
+    setUser(user: User.UserNewBare | null) {
+      userStore.setUser(user);
+    },
+    setHaveWorkers(val : boolean) {
+      userStore.setHaveWorkers(val);
+    },
     logout() {
-    //   userStore.clearUser();
-    //   authStore.logout();
+      this.setToken(null, null);
+      userStore.clearUser();
     },
   };
 
@@ -43,7 +51,9 @@ export function useCurrentUser() {
     // accessToken,
     // refreshToken,
     // isAuthenticated,
-    userDataSet,
+    $userDataSet,
+    accessToken,
+    isAuthenticated,
     // role,
     // fioFull,
     // isSimpleUser,

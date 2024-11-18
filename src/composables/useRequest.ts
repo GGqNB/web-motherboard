@@ -70,6 +70,11 @@ const getErrorMessage = (error: unknown): undefined | string => {
       || ((error as AxiosError).response as AxiosResponse<{ detail: string }>)?.data?.detail
     );
   
+    if(detail == 'Не удалось получить профиль'){
+      return 'Укажите свой номер на главной странице'
+    }
+  
+
   if(detail == 'Phone aleady exists'){
     return 'Такой номер уже есть в системе'
   }

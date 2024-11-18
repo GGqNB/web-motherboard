@@ -39,8 +39,8 @@ export function useList() {
       UserApi.login(userData.value));
       try{
         if (response) {
-          $currentUser.userDataSet.setPhone(response.data.phone); 
-          $currentUser.userDataSet.setUuid(response.data.uuid); 
+          $currentUser.$userDataSet.setPhone(response.data.phone); 
+          $currentUser.$userDataSet.setUuid(response.data.uuid); 
           getMe();
           $indicator.indicatorDataSet.setActivePhone(true);
           notification.success('Успешное сохранение номера');
@@ -76,7 +76,6 @@ export function useList() {
     const response = await makeRequest(async () =>
       UserApi.me()); 
       if (response) {
-        notification.success('Я работаю');
       }
     
   }
@@ -112,7 +111,7 @@ export function useList() {
       getWifi();
       
     }
-    // phone.value = $currentUser.userDataSet.getPhone() 
+    // phone.value = $currentUser.$userDataSet.getPhone() 
     return {
       listWifi,
       init,

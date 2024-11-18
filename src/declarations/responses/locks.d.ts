@@ -21,6 +21,7 @@ export namespace Locks {
     open_time: number,
     close_time: number,
     is_new?: boolean,
+    geo_address : string,
   }
 
   //возможно bare
