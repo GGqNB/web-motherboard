@@ -4,4 +4,4 @@ import * as dotenv from 'dotenv';
 export const API_SERVER: string = window.location.origin+'/api';
 // SERVER_URL=http://10.8.0.118
 // for dev
-// export const API_SERVER = 'http://10.8.0.202/api';
+// export const API_SERVER = 'http://10.8.0.194/api';

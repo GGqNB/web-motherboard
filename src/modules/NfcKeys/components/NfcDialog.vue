@@ -4,10 +4,10 @@
           :title = 'titleDialog'
           >
           <div>
-            Телефон - {{ bindData.phone.phone }}
+            Телефон - {{ bindData.phone ? bindData.phone.phone : 'Отсутствует' }}
           </div>
           <div>
-            Метка - {{ bindData.key }}
+            Метка - {{ bindData.key ? bindData.key : 'Отсутствует' }}
           </div>
           <div>
             Комментарий  - {{ bindData.comment ? bindData.comment : 'Отсутствует' }}
@@ -20,10 +20,11 @@
                 :label="currentPhone == null ? '': ''"
                 class="mt-base-25 "
                 :getter="getPhones"
+                disable
                 
                 />
-                <!-- @update:modelValue="rfidCurrent.phone.phone = ''" -->
-            <s-input
+             
+            <!-- <s-input
                 v-model="formData.key"
                 dense
                 placeholder="Поиск по номеру"
@@ -32,7 +33,7 @@
                 disabled
             />
 
-            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15" :class="isMobile ? 'phone-button-container':''" :disabled="true"/>
+            <SBtn label="Изменить" width="base-xxxl" @click=changeRfid(props.rfidData.id) class="mt-base-15" :class="isMobile ? 'phone-button-container':''" :disabled="true"/> -->
          </div>
           </s-dialog>
     </template>

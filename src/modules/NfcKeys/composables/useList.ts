@@ -12,6 +12,7 @@ import {useConfirmationDialog} from 'src/composables/useConfirmationDialog';
 import { API_SERVER } from 'src/constants/common';
 import { useNotifications } from 'src/composables/useNotifications';
 import { useSelectBackend } from 'src/composables/useSelectBackend';
+import { useDeviceSizes } from 'src/composables/useDeviceSizes';
 export function useList(){ 
 
  const users = ref([]);
@@ -29,13 +30,13 @@ export function useList(){
     align: 'center',
     sortable: true,
 },
-// {
-//   name: 'comment',
-//   label: 'Комментарий',
-//   field: 'comment',
-//   align: 'center',
-//   sortable: true,
-// },
+{
+  name: 'comment',
+  label: 'Комментарий',
+  field: 'comment',
+  align: 'center',
+  sortable: true,
+},
 {
   name: 'action',
   label: '',
@@ -48,7 +49,9 @@ const { getLocks } = useSelectBackend();
 const visibleUpload = ref(false);
 const visibleDialog = ref(false);
 const list = ref<Nfc.NfcBrief[]>([]);
-
+const {
+  isMobile
+} = useDeviceSizes();
 const { filterParams, sanitizeQueryFilterParams, defaultFilterParams } = useServiceFilters();
 
 const { paginationParams, sanitizeQueryPagination, setPaginationFromData, defaultPaginator } =
@@ -82,7 +85,7 @@ const { getQueryParams, setQueryParams } = useQueryString(combinedParametersSani
     await fetch();
   };
 const init = async () => {
-  // await fetch();
+
   const queryParams = getQueryParams();
   setPaginationFromData(queryParams);
   console.log(paginationParams.value)
@@ -167,7 +170,8 @@ const goUpload = async (files) => {
     visibleUpload,
     goUpload,
     getLocks,
-    currentLockId
+    currentLockId,
+    isMobile
   };
 }
 
