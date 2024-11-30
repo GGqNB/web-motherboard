@@ -52,7 +52,7 @@
                 class="mt-base-15 "
                 prefix='+7'
                 :getter="getPhones"
-                @add="visibilyNewPhone = !visibilyNewPhone"
+                @add="visibleNewPhoneF"
                 no-data-label="Такого номера нет, можете его создать"
                 :rules="[
                   NotEmpty(),
@@ -224,6 +224,12 @@ export default defineComponent({
         }
 
         const visibilyNewPhone = ref(false)
+
+        const visibleNewPhoneF = (prePhone : string) => {
+            phoneData.value.phone = prePhone;
+            visibilyNewPhone.value = !visibilyNewPhone.value
+        }
+
         const phoneData = ref({
             phone: '',
         })
@@ -261,7 +267,8 @@ export default defineComponent({
             getLocks,
             currentLocks,
             removeLock,
-            MinLength
+            MinLength,
+            visibleNewPhoneF
             // fetch
 
             // rfidCurrent,

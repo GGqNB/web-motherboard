@@ -1,4 +1,4 @@
-import { computed, ref} from 'vue';
+import { computed, ref, watch} from 'vue';
 import { makeRequest } from 'src/composables/useRequest';
 import { Tables } from 'src/declarations/components/table';
 import { TABLE_SETTINGS } from 'src/constants/table-settings';
@@ -9,14 +9,23 @@ import { Nfc } from 'src/declarations/responses/nfc';
 import { useServiceFilters } from './useFilters';
 import NfcApi from 'src/backend/api/classes/NfcApiClass';
 import {useConfirmationDialog} from 'src/composables/useConfirmationDialog';
-import { API_SERVER } from 'src/constants/common';
 import { useNotifications } from 'src/composables/useNotifications';
 import { useSelectBackend } from 'src/composables/useSelectBackend';
 import { useDeviceSizes } from 'src/composables/useDeviceSizes';
+import { utils, writeFileXLSX } from "xlsx";
+
 export function useList(){ 
 
  const users = ref([]);
- const TABLE_COLUMNS: Array < Tables.TableColumn > = [{
+ const TABLE_COLUMNS: Array < Tables.TableColumn > = [
+  {
+    name: 'indicators',
+    label: '',
+    field: 'indicators',
+    align: 'center',
+    sortable: false,
+},
+  {
     name: 'phone',
     label: 'Телефон',
     field: 'phone',
@@ -99,7 +108,7 @@ const clearParameters = async () => {
 };
 
 const deleteRfid = async (rfid_id : number) => {
-  const response = await NfcApi.nfcDelete(rfid_id);
+  await NfcApi.nfcDelete(rfid_id);
   const index = list.value.findIndex((item) => item.id === rfid_id);
   list.value.splice(index, 1);
 }
@@ -143,12 +152,30 @@ const pushFile = async (file) => {
 }
 
 
-const goUpload = async (files) => {
+const goUpload = async () => {
   return new Promise(() => {
     setTimeout(() => {
-      pushFile(files[0]);
+      pushFile(selectedFile.value[0]);
     }, 2000);
   });
+}
+const uploader = ref(null); 
+const selectedFile = ref(null);
+
+const selectedFileF = (file) => {
+  selectedFile.value = file
+  console.log(selectedFile.value)
+}
+
+const downloadPattern =() => {
+    const wb = utils.book_new();
+    const ws = utils.aoa_to_sheet([
+      ['Телефон', 'RFID', 'Комментарий'],
+      ['9XXXXXXXXXX', '0xXXXXXX', ''],
+    ]);
+    utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    writeFileXLSX(wb, 'шаблон.xlsx');
 }
 
   return {
@@ -171,7 +198,11 @@ const goUpload = async (files) => {
     goUpload,
     getLocks,
     currentLockId,
-    isMobile
+    isMobile,
+    uploader,
+    selectedFile,
+    selectedFileF,
+    downloadPattern
   };
 }
 

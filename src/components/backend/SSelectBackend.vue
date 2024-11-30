@@ -31,7 +31,8 @@
         
       </q-item>
       <q-item v-if="noDataLabel != 'Объекты не найдены'" class="flex justify-center">
-        <s-btn @click="$emit('add')">Создать</s-btn>
+        <s-btn @click="$emit('add', search)">Создать</s-btn>
+        <!-- <s-btn @click="console.log(search)">Создать</s-btn> -->
       </q-item>
     </template>
   </q-select>
@@ -198,6 +199,7 @@ return {
       loading,
       localModel,
       onUpdate,
+      search
     }
   },
 })
