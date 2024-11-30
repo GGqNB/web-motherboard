@@ -137,7 +137,7 @@ const onViewConfirmationDialog = (rfid : Nfc.NfcBrief) => {
   });
 };
 
-const currentLockId = ref(0);
+const currentLockId = ref(null);
 const pushFile = async (file) => {
   const formData = new FormData();
   formData.append('file', file);

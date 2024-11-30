@@ -31,7 +31,7 @@
               <s-btn
               color="primary"
               label="Отправить"
-              :disabled="!selectedFile"
+              :disabled="!currentLockId || !selectedFile"
               @click="goUpload"
               class="mt-base-15 full-width"
               />
