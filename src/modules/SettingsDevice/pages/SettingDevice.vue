@@ -14,7 +14,6 @@
           :getter="getLocks"
           search-filter="name_filter"
         />
-        
         <div v-if="lockData.id !== 0" class="mt-base-15">
           <div v-if="lockFetchData.lock_type_id == 2">
             Это устройство - Постамат и у него нет настроек
