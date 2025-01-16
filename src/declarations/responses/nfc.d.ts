@@ -9,7 +9,8 @@ export namespace Nfc {
       locks: Locks.LockInNfc,
       comment : string,
       phone: null | {
-        phone: string
+        phone: string,
+        local?: boolean,
       }
   }
 
@@ -17,7 +18,7 @@ export namespace Nfc {
     key: string,
     is_master: boolean,
     phone_id: number,
-    lock_ids: Array<number>,
+    local: boolean,
     comment : string,
   }
 
