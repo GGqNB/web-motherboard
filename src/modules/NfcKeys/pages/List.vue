@@ -7,6 +7,7 @@
         label-btn="Добавить из Exel"
         @click="visibleUpload = !visibleUpload" />
     <div class="home_wrapper">
+        
         <div v-if="visibleUpload" class=mt-base-25>
             <s-select-backend
                 v-model="currentLockId"
@@ -99,21 +100,6 @@
                 <template v-slot:body="props">
                     <q-tr :props="props" @click="visibleTooltip = props.row.id">
 
-                        <!-- <q-tooltip
-                            v-if="(props.row.local || props.row.phone.local) "
-                            anchor="top middle"
-                            self="bottom middle">
-                            <div v-if="props.row.local" class="flex">
-                                <div class="orange-info "></div>
-                                <div>&nbsp; Доступ выдан на локальном сервере</div>
-                            </div>
-                            <div v-if="!props.row.local" class="mt-base-10 flex">
-                                <div class="red-info"></div>
-                                <div>
-                                    &nbsp; Пользователь не зарегистрирован<br> на stown.ooo
-                                </div>
-                            </div>
-                        </q-tooltip> -->
                         <q-td
                             key="indicators"
                             :props="props"
@@ -127,7 +113,9 @@
                                         round
                                         icon="lens"
                                         size="10.5px"
-                                        color="orange">
+                                        color="orange"
+                                        @click= "orangeLabel = !orangeLabel"
+                                        >
                                         <q-tooltip
                                             anchor="center right"
                                             self="center middle"
@@ -139,6 +127,13 @@
                                             </div>
                                         </q-tooltip>
                                     </q-btn>
+                                    <div  class="tooltip-down" v-if="orangeLabel && isMobile">
+                                       <div class="flex justify-between">
+                                        <div class="orange-info "></div>
+                                        <q-btn flat icon="close" @click="orangeLabel = false"></q-btn>
+                                        <div>&nbsp; Доступ выдан на локальном сервере</div>
+                                       </div>
+                                </div>
                                 </span>
                                 <span v-if="!props.row.local">
                                     <q-btn
@@ -147,7 +142,9 @@
                                         round
                                         icon="lens"
                                         size="10.5px"
-                                        color="red">
+                                        color="red"
+                                        @click="redLabel = !redLabel"
+                                        >
                                         <q-tooltip
                                             anchor="center right"
                                             self="center middle"
@@ -161,6 +158,13 @@
                                             </div>
                                         </q-tooltip>
                                     </q-btn>
+                                    <div  class="tooltip-down" v-if="redLabel && isMobile">
+                                       <div class="flex justify-between">
+                                        <div class="red-info "></div>
+                                        <q-btn flat icon="close" @click="redLabel = false"></q-btn>
+                                        <div> Пользователь не зарегистрирован<br> на stown.ooo</div>
+                                       </div>
+                                </div>
                                 </span>
                             </div>
                         </q-td>
@@ -289,6 +293,8 @@ export default defineComponent({
             downloadPattern
         } = useList();
 
+        const orangeLabel = ref(false);
+        const redLabel = ref(false);
         const visibleCreateDialog = ref(false);
         const createRequest = (NewDataPromise) => {
             console.log(NewDataPromise);
@@ -345,7 +351,9 @@ export default defineComponent({
             selectedFile,
             uploader,
             selectedFileF,
-            downloadPattern
+            downloadPattern,
+            orangeLabel,
+            redLabel
         };
     },
 });
