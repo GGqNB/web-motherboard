@@ -47,32 +47,13 @@ export default class LocksApi {
     return responseData;
   }
 
-  // public static async bind_lock_phone(data: User.UserBare): Promise<{ messege : string }> {
-  //   const responseData: { messege : string } = await axios({
-  //     ...LOCKS,
-  //     data,
-  //   })
-  //     .then((r): { messege : string } => r.data);
+  public static async addPhoto(data, lock_id: number): Promise<{success : boolean}> {
+    const responseData: {success : boolean} = await axios({
+      ...LOCKS.ADD_PHOTO(lock_id),
+      data,
+    })
+      .then((r): { success : boolean } => r.data);
 
-  //   return responseData;
-  // }
-
-  // public static async delete(): Promise<{ messege : string }> {
-  //   const responseData: { messege : string } = await axios({
-  //     ...USER.DELETE,
-  //   })
-  //     .then((r): { messege : string } => r.data);
-
-  //   return responseData;
-  // }
-
-  // public static async bind_locks(data: User.UserBrief): Promise<{ message: string }> {
-  //   const responseData: { message: string } = await axios({
-  //     ...USER.BIND_ALL_LOCK,
-  //     data,
-  //   })
-  //     .then((r): { message: string } => r.data);
-
-  //   return responseData;
-  // }
+    return responseData;
+  }
 }

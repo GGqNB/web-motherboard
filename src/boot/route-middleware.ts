@@ -1,6 +1,8 @@
 import { boot } from 'quasar/wrappers';
 import { useLocalAuthStore } from 'src/stores/auth.store';
 import { useUserStore } from 'src/stores/user.store';
+import { useIndicatorStore } from 'src/stores/indicator.store';
+import { useNotifications } from 'src/composables/useNotifications';
 
 export interface MetaParams {
     /**
@@ -9,13 +11,18 @@ export interface MetaParams {
      */
     authorization?: boolean | Array<number>;
     noAuthorization?: boolean;
-    haveWorkers? : boolean;
+    userBinded? : boolean;
   }
   export default boot(({ router }) => {
     router.beforeResolve(async (to ) => {
       const auth = (m?: MetaParams) => m && m.authorization;
       const needNoAuth = (m?: MetaParams) => m && m.noAuthorization;
+      const binded = (m?: MetaParams) => m && m.userBinded;
+  
+      const $notify = useNotifications();
+
       const authStore = useLocalAuthStore();
+      const indicatorStore = useIndicatorStore();
       const { meta } = to;
       if (!auth(meta) && !needNoAuth(meta)) {
         // Если роут не имеет пометку только авторизованным и не имеет пометку требуется не авторизованый, то все ОК, пропускаем
@@ -28,5 +35,9 @@ export interface MetaParams {
         router.push('/login')
       }
 
+      if ((binded(meta) && !indicatorStore.activePhone) ) {
+        router.push('/')
+        $notify.info('Добавьте данные от ЛК STOWN');
+      }
     });
   },);

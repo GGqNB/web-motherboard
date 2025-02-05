@@ -20,6 +20,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: 'STOWN',
       authorization: true,
+      userBinded: false,
     }
   },
   {
@@ -29,6 +30,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: 'STOWN',
       authorization: false,
+      userBinded: false,
+
     }
   },
   {
@@ -38,6 +41,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: 'STOWN',
       authorization: true,
+      userBinded: true,
+
     }
   },
 
@@ -48,6 +53,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: 'STOWN',
       authorization: true,
+      userBinded: true,
     }
   },
   {
@@ -57,6 +63,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: 'STOWN',
       authorization: true,
+      userBinded: true,
     }
   },
   // Always leave this as last one,
@@ -66,7 +73,8 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/ErrorNotFound.vue'),
     meta: {
       title: 'STOWN',
-      authorization: false
+      authorization: false,
+      userBinded: false,
     }
   },
 ];

@@ -167,7 +167,12 @@ const searchNewDevice = async () =>{
     btnFlag.value = true;
   }
 }
-
+    const currentLock = ref();
+    const visibleSetting = ref(false);
+    const openSetting = (lockData) => {
+      currentLock.value = lockData;
+      visibleSetting.value = !visibleSetting.value;
+    }
     return {
       listLocks,
       init,
@@ -183,7 +188,10 @@ const searchNewDevice = async () =>{
       paginationParams,
       fetch,
       searchNewDevice,
-      visibleDialog
+      visibleDialog,
+      openSetting,
+      visibleSetting,
+      currentLock
 
     }
   }

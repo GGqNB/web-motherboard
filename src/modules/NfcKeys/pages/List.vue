@@ -17,7 +17,7 @@
                 class="mt-base-25 mb-base-15"
                 :getter="getLocks"
                 no-data-label="Нет устройств" />
-                <q-uploader
+            <q-uploader
                 ref="uploader"
                 accept=".xlsx"
                 :factory="goUpload"

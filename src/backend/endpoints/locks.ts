@@ -52,5 +52,10 @@ export const LOCKS = {
       url: `${locksUrl}/${id}/nfc_key/`,
     };
   },
- 
+  ADD_PHOTO(id:number): IEndpointData {
+    return {
+      method: 'POST',
+      url: `${locksUrl}/${id}/image/`,
+    };
+  },
 }
