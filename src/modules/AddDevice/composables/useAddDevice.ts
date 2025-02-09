@@ -55,8 +55,7 @@ export function useList() {
           // listLocks.value.pop();
           listLocks.value.push(response);
           hideLoading();
-          btnFlag.value = true;
-          lockData.value.title = '';
+          
           // newLock.value = (null);
         }else 
         {
@@ -67,6 +66,8 @@ export function useList() {
         visibleDialog.value = false;
         hideLoading();
       }
+      btnFlag.value = true;
+      lockData.value.title = '';
       visibleDialog.value = false;
       await bindLocks();
       await searchNewDevice();

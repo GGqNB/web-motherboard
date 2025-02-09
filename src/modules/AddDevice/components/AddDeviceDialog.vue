@@ -14,6 +14,7 @@
                 class="mt-base-15"
                 disabled
                 :rules= "[
+                  MaxLength(255),
                   NotEmpty(),
                   MinLength(3),
                 ]"
@@ -27,6 +28,7 @@
                 class="mt-base-15"
                 disabled
                 :rules= "[
+                  MaxLength(255),
                   NotEmpty(),
                   MinLength(3),
                 ]"
@@ -40,19 +42,30 @@
                 class="mt-base-15"
                 disabled
                 :rules= "[
+                  GreaterThenOrEqual(1),
+                  MaxLength(9),
                   NotEmpty(),
                 ]"
             />
+            <div class="flex mt-base-15">
+              <div class="mt-base-10">У меня нет № квартиры</div>
+              <div><q-checkbox v-model="noFlat"></q-checkbox></div>
+            </div>
             <s-input
+                v-if="!noFlat"
                 v-model="geoData.flat"
                 dense
                 placeholder="Введите квартиру"
                 clearable
+                type="number"
                 prefix="кв."
                 class="mt-base-15"
                 disabled
                 :rules= "[
+                  GreaterThenOrEqual(1),
+                  MaxLength(3),
                   NotEmpty(),
+                  
                 ]"
             />
             <SBtn
@@ -105,6 +118,7 @@ import useValidation from 'src/composables/useValidation';
         house: '',
         flat:'',
       })
+      const noFlat = ref(false);
       const $notify = useNotifications();
       const form = ref < QForm > ();
       const onSubmit = async () => {
@@ -112,6 +126,9 @@ import useValidation from 'src/composables/useValidation';
             if (!isValid) {
                 $notify.warning('Необходимо заполнить обязательные поля');
                 return;
+            }
+            if(noFlat.value){
+              geoData.value.flat = '-';
             }
             // 
             emit('send-lock', 'г.'+geoData.value.city+ ' ул.'+geoData.value.street+ ' №'+geoData.value.house+' кв.'+geoData.value.flat)
@@ -123,6 +140,9 @@ import useValidation from 'src/composables/useValidation';
         const {
             NotEmpty,
             MinLength,
+            IsInteger,
+            MaxLength,
+            GreaterThenOrEqual
         } = useValidation();
     return {
       titleDialog: 'Доблавление адреса  ',
@@ -131,6 +151,10 @@ import useValidation from 'src/composables/useValidation';
       geoData,
       NotEmpty,
       MinLength,
+      IsInteger,
+      MaxLength,
+      GreaterThenOrEqual,
+      noFlat
     };
       },
     });

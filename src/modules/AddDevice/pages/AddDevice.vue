@@ -64,7 +64,7 @@
         />
         <SBtn
             label="Добавить"
-            :disable="btnFlag"
+            :disable="lockData.title && btnFlag"
             width="base-xxxl"
             @click="visibleDialog = !visibleDialog"
             class="mt-base-15"
