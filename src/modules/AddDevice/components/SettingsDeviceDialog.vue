@@ -11,8 +11,10 @@
             :max-file-size="2 * 1024 * 1024"
             style="width: 350px"
             hide-upload-btn
+            class="full-width"
+            accept="image/*"
         />
-
+        <div>Доступные расширения .png .jpeg</div>
         <s-btn
             color="primary"
             label="Отправить"
