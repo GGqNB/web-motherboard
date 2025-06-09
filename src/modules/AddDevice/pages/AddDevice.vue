@@ -17,6 +17,8 @@
                 </div>
                 <div>
                    <q-btn flat icon="settings" @click="openSetting(lock)"/>
+                   <q-btn flat icon="lock_open" @click="openDevice(lock.id)"/>
+                   <q-btn flat icon="lock" @click="closeDevice(lock.id)"/>
                 </div>
             </div>
         </div>
@@ -125,7 +127,9 @@ export default defineComponent({
             visibleDialog,
             openSetting,
             visibleSetting,
-            currentLock
+            currentLock,
+            openDevice,
+            closeDevice
         } = useList();
 
         onMounted(() => init());
@@ -147,7 +151,9 @@ export default defineComponent({
             visibleDialog,
             openSetting,
             visibleSetting,
-            currentLock
+            currentLock,
+            openDevice,
+            closeDevice
         };
     },
 });

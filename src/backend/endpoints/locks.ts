@@ -8,6 +8,7 @@ export const LOCKS = {
     method: 'GET',
     url: `${locksUrl}/?is_new=false`,
   } as IEndpointData,
+  
   LIST_NEW: {
     method: 'GET',
     url: `${locksUrl}/?is_new=true`,
@@ -20,6 +21,18 @@ export const LOCKS = {
     return {
       method: 'GET',
       url: `${locksUrl}/${id}`,
+    };
+  },
+  OPEN(id: number): IEndpointData {
+    return {
+      method: 'GET',
+      url: `${locksUrl}/open/${id}`,
+    };
+  },
+  CLOSE(id: number): IEndpointData {
+    return {
+      method: 'GET',
+      url: `${locksUrl}/close/${id}`,
     };
   },
   UPDATE(id: number): IEndpointData {

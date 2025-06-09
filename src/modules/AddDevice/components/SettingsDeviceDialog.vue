@@ -1,6 +1,6 @@
 <template>
 <s-dialog v-if="lockData" :title='titleDialog'>
-    <div>
+    <div class="home_wrapper">
         Добавить изображение к {{ lockData.title }}
         <q-uploader
             ref="uploader"

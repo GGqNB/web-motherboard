@@ -56,4 +56,22 @@ export default class LocksApi {
 
     return responseData;
   }
+
+  public static async open(lock_id: number): Promise<{success : boolean}> {
+    const responseData: {success : boolean} = await axios({
+      ...LOCKS.OPEN(lock_id),
+    })
+      .then((r): { success : boolean } => r.data);
+
+    return responseData;
+  }
+
+  public static async close(lock_id: number): Promise<{success : boolean}> {
+    const responseData: {success : boolean} = await axios({
+      ...LOCKS.CLOSE(lock_id),
+    })
+      .then((r): { success : boolean } => r.data);
+
+    return responseData;
+  }
 }

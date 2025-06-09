@@ -155,6 +155,17 @@ const init = async () => {
   await searchNewDevice();
 };
 
+const openDevice = async (id: number) => {
+  const response = await makeRequest(async () =>
+    LocksApi.open(id)); 
+}
+
+const closeDevice = async (id: number) => {
+  const response = await makeRequest(async () =>
+    LocksApi.close(id)); 
+}
+
+
 const searchNewDevice = async () =>{
   newLock.value = (null);
   const response = await makeRequest(async () =>
@@ -192,7 +203,9 @@ const searchNewDevice = async () =>{
       visibleDialog,
       openSetting,
       visibleSetting,
-      currentLock
+      currentLock,
+      openDevice,
+      closeDevice
 
     }
   }
