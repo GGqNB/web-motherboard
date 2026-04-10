@@ -16,9 +16,21 @@
                     </div>
                 </div>
                 <div>
-                   <q-btn flat icon="settings" @click="openSetting(lock)"/>
-                   <q-btn flat icon="lock_open" @click="openDevice(lock.id)"/>
-                   <q-btn flat icon="lock" @click="closeDevice(lock.id)"/>
+                    <q-btn
+                        flat
+                        icon="settings"
+                        @click="openSetting(lock)"
+                    />
+                    <q-btn
+                        flat
+                        icon="lock_open"
+                        @click="openDevice(lock.id)"
+                    />
+                    <q-btn
+                        flat
+                        icon="lock"
+                        @click="closeDevice(lock.id)"
+                    />
                 </div>
             </div>
         </div>
@@ -38,16 +50,25 @@
             Новые устройства :
         </div>
         <div>
-            <div class="flex justify-between mt-base-20" v-if="newLock">
-                <div>
-                    {{ newLock.lock_type.id == 1 ? 'Дверной замок' : 'Постамат'}}
-                    <br>
-                    Адрес :
-                    {{ newLock.address }}
-                </div>
-                <div>
+            <div class="flex justify-between items-start mt-base-20" v-if="newLock">
 
+                <div>
+                    {{ newLock.lock_type.id == 1 ? 'Дверной замок' : 'Постамат' }}
+                    <br>
+                    Адрес: {{ newLock.address }}
                 </div>
+
+                <div>
+                    <q-btn
+                        icon="close"
+                        flat
+                        round
+                        dense
+                        color="negative"
+                        @click="removeLock(newLock.id)"
+                    />
+                </div>
+
             </div>
         </div>
 
@@ -81,7 +102,7 @@
     </div>
     <div class="main_footer">
         <add-device-dialog :show="visibleDialog" @send-lock="createLock" />
-        <settings-device-dialog :lock-data="currentLock" v-model="visibleSetting"/>
+        <settings-device-dialog :lock-data="currentLock" v-model="visibleSetting" />
     </div>
 </s-page>
 </template>
@@ -129,7 +150,8 @@ export default defineComponent({
             visibleSetting,
             currentLock,
             openDevice,
-            closeDevice
+            closeDevice,
+            removeLock
         } = useList();
 
         onMounted(() => init());
@@ -153,7 +175,8 @@ export default defineComponent({
             visibleSetting,
             currentLock,
             openDevice,
-            closeDevice
+            closeDevice,
+            removeLock
         };
     },
 });

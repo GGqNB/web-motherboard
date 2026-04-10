@@ -17,6 +17,15 @@ export default class LocksApi {
     return responseData;
   }
 
+    public static async delete(id: number): Promise<LocksList> {
+    const responseData: LocksList = await axios({
+      ...LOCKS.DELETE(id),
+    })
+      .then((r): LocksList => r.data);
+
+    return responseData;
+  }
+
   public static async listNew(params? : any): Promise<LocksList> {
     const responseData: LocksList = await axios({
       ...LOCKS.LIST_NEW,

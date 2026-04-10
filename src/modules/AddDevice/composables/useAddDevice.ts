@@ -154,12 +154,15 @@ const init = async () => {
   setPaginationFromData(queryParams);
   await searchNewDevice();
 };
-
 const openDevice = async (id: number) => {
   const response = await makeRequest(async () =>
     LocksApi.open(id)); 
 }
-
+const removeLock = async (id: number) => {
+  const response = await makeRequest(async () =>
+    LocksApi.delete(id)); 
+  newLock.value = null;
+}
 const closeDevice = async (id: number) => {
   const response = await makeRequest(async () =>
     LocksApi.close(id)); 
@@ -205,7 +208,8 @@ const searchNewDevice = async () =>{
       visibleSetting,
       currentLock,
       openDevice,
-      closeDevice
+      closeDevice,
+      removeLock
 
     }
   }
