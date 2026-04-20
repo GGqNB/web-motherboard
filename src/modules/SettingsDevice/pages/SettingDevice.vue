@@ -14,7 +14,7 @@
           :getter="getLocks"
           search-filter="name_filter"
         />
-        <div v-if="lockData.id !== 0" class="mt-base-15">
+        <!-- <div v-if="lockData.id !== 0" class="mt-base-15">
           <div v-if="lockFetchData.lock_type_id == 2">
             Это устройство - Постамат и у него нет настроек
           </div>
@@ -26,9 +26,9 @@
             Сейчас время открытия составляет : {{ lockData.open_time / 10 }} сек
             <div>Сейчас время закрытия составляет : {{ lockData.close_time /10 }} сек</div>
           </div>
-        </div>
+        </div> -->
       </div>
-    <div v-if="lockFetchData.lock_type_id !== 2">
+    <div>
       <div class="home_wrapper_2">
         <div class="mt-base-15 flex" >
           <SInput label="Время открытия" icon="home" :readonly="timeFlagUp" >
@@ -46,7 +46,7 @@
         </div>
         </div>
         <div class="home_wrapper">
-        <div class="flex mt-base-15" v-if="lockFetchData.lock_type_id == 3">
+        <div class="flex mt-base-15">
           <SInput label="Время закрытия" icon="home" :readonly="timeFlagDown" >
             <template v-slot:append>
             <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown" />

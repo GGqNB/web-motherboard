@@ -8,7 +8,7 @@
         <div>«STOWN»</div>
     </div>
     <q-form ref="form" class="col-xs-12">
-        <div class="fw-600 fs-19">Авторизация_</div>
+        <div class="fw-600 fs-19">Авторизация=</div>
         <div class="col-xs-12">
             <s-input
                 label="Логин"
