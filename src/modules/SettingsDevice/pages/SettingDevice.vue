@@ -46,7 +46,7 @@
         </div>
         </div>
         <div class="home_wrapper">
-        <div class="flex mt-base-15">
+        <!-- <div class="flex mt-base-15">
           <SInput label="Время закрытия" icon="home" :readonly="timeFlagDown" >
             <template v-slot:append>
             <q-btn round dense flat icon="tune" @click="timeFlagDown = !timeFlagDown" />
@@ -57,8 +57,8 @@
            type="number" 
            label="секунд"
             v-model="lockFetchData.close_time" />
-        </div>
-        </div>
+        </div> -->
+        <!-- </div> -->
         <SBtn label="Сохранить" width="base-xxxl" :disable="lockData.id == 0" class="mt-base-15"  @click="updateTimeLock"/>
         </div>
     </div>
