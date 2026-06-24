@@ -41,8 +41,8 @@
                     style="width: 120px"
                     disabled
                     :rules="[
-      GreaterThenOrEqual(1),
-      MaxLength(9),
+    //   GreaterThenOrEqual(1),
+    //   MaxLength(9),
       NotEmpty(),
     ]"
                 />
@@ -75,8 +75,8 @@
                 class="mt-base-15"
                 disabled
                 :rules="[
-                  GreaterThenOrEqual(1),
-                  MaxLength(3),
+                //   GreaterThenOrEqual(1),
+                //   MaxLength(3),
                   NotEmpty(),
 
                 ]"
