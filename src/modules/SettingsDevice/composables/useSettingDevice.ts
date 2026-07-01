@@ -43,6 +43,8 @@ export function useList() {
       lockFetchData.value.sub_address = newValue.sub_address;
       lockFetchData.value.lock_type_id = newValue.lock_type.id;
       lockFetchData.value.title = newValue.title;
+      lockFetchData.value.open_time = newValue.open_time / 10;
+      lockFetchData.value.close_time = newValue.close_time / 10;
     }, { deep: true });
 
  
